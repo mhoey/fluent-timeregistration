@@ -1,0 +1,98 @@
+<html lang="en">
+
+<head>
+    <title>
+        Timeregistration
+    </title>
+    <script type="module" src="./main.js"></script>
+    <style>
+        body {
+            background-color: rgb(255, 255, 255);
+            font-family: var(--fontFamilyBase);
+            font-size: var(--fontSizeBase300);
+        }
+
+        .inputsection {
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Timeregistration</h1>
+    <section id="ds" class="inputsection">
+        <fluent-field>
+            <label slot="label">Weekday</label>
+            <fluent-dropdown id="ewd" slot="input" type="select" title="Weekday" >
+                <fluent-listbox id="elb">
+                    <fluent-option value="1">Monday</fluent-option>
+                    <fluent-option value="2">Tuesday</fluent-option>
+                    <fluent-option value="3">Wednesday</fluent-option>
+                    <fluent-option value="4">Thursday</fluent-option>
+                    <fluent-option value="5">Friday</fluent-option>
+                    <fluent-option value="6">Saturday</fluent-option>
+                    <fluent-option value="7">Sunday</fluent-option>
+                </fluent-listbox>
+            </fluent-dropdown>
+        </fluent-field>
+        <fluent-text-input id="emt" data-format="hhmm" placeholder="00:00">Meeting time</fluent-text-input>
+        <fluent-text-input id="elt" data-format="hhmm" placeholder="00:00">Leave time</fluent-text-input>
+        </fluent-field>
+        <label for="exlt">Exclude standard lunch time</label>
+        <fluent-checkbox id="exlt" />
+    </section>
+    <section id="ae" class="inputsection">
+        <h2>Activity</h2>
+        <fluent-field>
+            <label slot="label">Activity</label>
+            <fluent-dropdown slot="input" type="select" id="acs">
+                <fluent-listbox>
+                    <fluent-option value="0"></fluent-option>
+                    <fluent-option value="1">Login</fluent-option>
+                    <fluent-option value="2">EDN</fluent-option>
+                    <fluent-option value="3">License</fluent-option>
+                    <fluent-option value="4">Meetings</fluent-option>
+                </fluent-listbox>
+            </fluent-dropdown>
+        </fluent-field>
+        <fluent-switch id="tet">
+            <span slot="checked-message">Specific time</span>
+            <span slot="unchecked-message">Hours</span>
+            <label for="cap-switch">Timespan or hours:</label>
+        </fluent-switch>
+        <section id="timeentry" hidden>
+            <fluent-text-input appearance="filled" id="test" data-format="hhmm" placeholder="00:00">Start time</fluent-text-input>
+            <fluent-text-input appearance="filled" id="teet" data-format="hhmm" placeholder="00:00">End time</fluent-text-input>
+        </section>
+        <section id="hourentry">
+            <fluent-text-input appearance="filled" id="heh" placeholder="0,0">Hours</fluent-text-input>
+        </section>
+        <fluent-button id="aact" appearance="accent">Add</fluent-button>
+    </section>
+    <section id="tdh"></section>
+    <section id="tdat"></section>
+    <section id="atl">
+        <h2>Activity list for <span id="acwd"></span></h2>
+        <table id="alta">
+            <thead>
+                <tr>
+                    <th>Hours</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Activity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>No activity yet!</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</body>
+
+</html>
