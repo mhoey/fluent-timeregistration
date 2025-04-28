@@ -1,6 +1,6 @@
 
 # Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+name: Build website and deploy to Pages
 
 on:
   # Runs on pushes targeting the default branch
@@ -44,7 +44,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: build-artifact
-          path: 'dist'
+          path: './dist'
       
         
         
