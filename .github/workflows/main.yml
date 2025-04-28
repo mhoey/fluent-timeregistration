@@ -40,14 +40,12 @@ jobs:
 
       - name: Build project
         run: yarn build
+        
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-artifact
           path: dist/
-      
-        
-        
   # Single deploy job since we're just deploying
   deploy:
     needs: build
