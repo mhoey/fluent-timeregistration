@@ -151,6 +151,17 @@ const renderActivityTable = (activities) => {
     }
 }
 
+const renderAll = () => {
+    let today = registrationModel.today()
+    if (today) {
+        document.getElementById("emt").value = time.format(today.meetingTime)
+        document.getElementById("elt").value = time.format(today.leaveTime)
+    } else {
+        document.getElementById("emt").value = ""
+        document.getElementById("elt").value = ""
+    }
+}
+
 const addActivity = () => {
     let activitySelectElement = document.getElementById("acs")
     let hourEntryElement = document.getElementById("heh")
@@ -172,6 +183,9 @@ const init = () => {
     })
 
     document.getElementById("elb").selectOption(0)
+    document.getElementById("ewd").addEventListener("change", (changeEvent) => {
+        registrationModel.setWeekDay(changeEvent.target.value)
+    })
 
     document.getElementById("emt").addEventListener("blur", (blurEvent) => {
         registrationModel.setDayDurationStart(blurEvent.target.value)
@@ -181,6 +195,7 @@ const init = () => {
         registrationModel.setDayDurationEnd(blurEvent.target.value)
     })
 
+    registrationModel.addEventListener("weekdaychange", renderAll)
     registrationModel.addEventListener("daydurationchange", renderWorkHours)
     registrationModel.addEventListener("activitychange", renderActivityTable)
 

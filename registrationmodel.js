@@ -1,11 +1,9 @@
 import { time } from "./time"
 
 const registrationModel = {
-    weekDay: 1,
+    weekDay: "1",
     localWeekEntries: new Map(),
     eventListeners: new Map(),
-    localStartTime: "",
-    localEndTime: "",
 
     addEventListener: (eventType, eventCallback) => {
         let eventArray = registrationModel.eventListeners.get(eventType)
@@ -31,16 +29,24 @@ const registrationModel = {
     triggerListeners: (eventType, eventData) => {
         let listeners = registrationModel.eventListeners.get(eventType)
         if (listeners) {
-            listeners.forEach(x =>
-                x(eventData)
+            listeners.forEach(x => {
+                if (eventData) {
+                    x(eventData)
+                } else {
+                    x()
+                }
+            }
             )
         }
     },
 
     triggerDayDurationEvent: () => {
-        if (registrationModel.localStartTime && registrationModel.localEndTime) {
-            let dayDuration = time.diff(registrationModel.localStartTime, registrationModel.localEndTime, 0)
-            registrationModel.triggerListeners("daydurationchange", dayDuration)
+        let dayEntry = registrationModel.today()
+        if (dayEntry) {
+            if (dayEntry.meetingTime && dayEntry.leaveTime) {
+                let dayDuration = time.diff(dayEntry.meetingTime, dayEntry.leaveTime, 0)
+                registrationModel.triggerListeners("daydurationchange", dayDuration)
+            }
         }
     },
 
@@ -48,20 +54,39 @@ const registrationModel = {
         registrationModel.triggerListeners("activitychange", activities) 
     },
 
+    today : () => {
+        return registrationModel.localWeekEntries.get(registrationModel.weekDay)
+    },
+
     setWeekDay: (weekDay) => {
         registrationModel.weekDay = weekDay
+        registrationModel.triggerListeners("weekdaychange")
+        registrationModel.triggerDayDurationEvent()
+    },
+    setDayDuration : (time, meetOrLeave) => {
+        if (!time) return
+        time = time.replace(/[^0-9]/g, '')
+        let dayEntry = registrationModel.today()
+        if (!dayEntry) {
+            registrationModel.localWeekEntries.set(registrationModel.weekDay, {})
+            dayEntry = registrationModel.localWeekEntries.get(registrationModel.weekDay)
+        }
+        switch (meetOrLeave) {
+            case "meet": dayEntry.meetingTime = time; break
+            case "leave": dayEntry.leaveTime = time; break
+        }
+        console.log(dayEntry)
+        registrationModel.triggerDayDurationEvent()
     },
     setDayDurationStart: (startTime) => {
-        registrationModel.localStartTime = startTime.replace(/[^0-9]/g, '')
-        registrationModel.triggerDayDurationEvent()
+        registrationModel.setDayDuration(startTime, "meet")
     },
     setDayDurationEnd: (endTime) => {
-        registrationModel.localEndTime = endTime.replace(/[^0-9]/g, '')
-        registrationModel.triggerDayDurationEvent()
+        registrationModel.setDayDuration(endTime, "leave")
     },
     addActivityHours: (hours, activity) => {
         let fakeMeetingTime = time.timespanFromHours(800, hours)
-        let dayEntry = registrationModel.localWeekEntries.get(registrationModel.weekDay)
+        let dayEntry = registrationModel.today()
         if (!dayEntry) {
             // Ok not found we need to create a default entry
             registrationModel.localWeekEntries.set(registrationModel.weekDay, {
