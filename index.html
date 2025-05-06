@@ -16,6 +16,15 @@
             display: flex;
             flex-direction: column;
         }
+        #ds, #ae {
+            width: 200px;
+            border: solid 2px rgb(188, 186, 196);
+            border-radius: 4px;
+            padding: 16px;
+        }
+        #ae {
+            margin-top: 8px
+        }
     </style>
 </head>
 
@@ -40,10 +49,8 @@
         <fluent-text-input id="elt" data-format="hhmm" placeholder="00:00">Leave time</fluent-text-input>
         </fluent-field>
         <label for="exlt">Exclude standard lunch time</label>
-        <fluent-checkbox id="exlt" />
-    </section>
-    <section id="ae" class="inputsection">
-        <h2>Activity</h2>
+        <div></div>
+        <fluent-checkbox id="exlt"></fluent-checkbox>
         <fluent-field>
             <label slot="label">Activity</label>
             <fluent-dropdown slot="input" type="select" id="acs">
@@ -59,7 +66,6 @@
         <fluent-switch id="tet">
             <span slot="checked-message">Specific time</span>
             <span slot="unchecked-message">Hours</span>
-            <label for="cap-switch">Timespan or hours:</label>
         </fluent-switch>
         <section id="timeentry" hidden>
             <fluent-text-input appearance="filled" id="test" data-format="hhmm" placeholder="00:00">Start time</fluent-text-input>
@@ -69,18 +75,19 @@
             <fluent-text-input appearance="filled" id="heh" placeholder="0,0">Hours</fluent-text-input>
         </section>
         <fluent-button id="aact" appearance="accent">Add</fluent-button>
-    </section>
-    <section id="tdh"></section>
-    <section id="tdat"></section>
+        <section id="tdh"></section>
+        <section id="tdat"></section>
+        </section>
     <section id="atl">
-        <h2>Activity list for <span id="acwd"></span></h2>
+        <h2>IFS view</span></h2>
         <table id="alta">
             <thead>
                 <tr>
-                    <th>Hours</th>
-                    <th>Start</th>
-                    <th>End</th>
-                    <th>Activity</th>
+                    <th>Monday</th>
+                    <th>Tuesday</th>
+                    <th>Wednesday</th>
+                    <th>Thursday</th>
+                    <th>Friday</th>
                 </tr>
             </thead>
             <tbody>
