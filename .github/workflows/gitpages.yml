@@ -43,7 +43,7 @@ jobs:
 
       - name: Substitute js reference
         run: |
-          sed -i 's/\/assets/.\/assets/g' index.html
+          sed -i 's/\/assets/.\/assets/g' dist/index.html
             
       - name: Upload artifact
         id: deployment
