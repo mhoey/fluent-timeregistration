@@ -59,10 +59,10 @@ jobs:
         with:
             name: build-artifact
             path: ./
-      - name: github-pages
-        uses: actions/upload-pages-artifact@v4
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: pages-artifact
+          name: github-pages
           path: ./
       - name: Deploy to GitHub Pages
         id: deployment
