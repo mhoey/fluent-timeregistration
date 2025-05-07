@@ -40,7 +40,11 @@ jobs:
 
       - name: Build project
         run: yarn build
-        
+
+      - name: Substitute js reference
+        run: |
+          sed -i 's/\/assets/.\/assets/g' index.html
+            
       - name: Upload artifact
         id: deployment
         uses: actions/upload-pages-artifact@v3
