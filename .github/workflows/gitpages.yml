@@ -40,11 +40,19 @@ jobs:
 
       - name: Build project
         run: yarn build
-        
+
+      - name: Substitute js reference
+        run: |
+          sed -i 's/\/assets/.\/assets/g' dist/index.html
+
+      - name: Debug substitution
+        run: |
+          cat dist/index.html
+            
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        id: deployment
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: build-artifact
           path: dist/
   # Single deploy job since we're just deploying
   deploy:
@@ -54,15 +62,6 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: actions/download-artifact@v4
-        with:
-            name: build-artifact
-            path: ./
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          name: pages-artifact
-          path: ./
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
