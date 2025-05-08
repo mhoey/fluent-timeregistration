@@ -1,15 +1,17 @@
 import {
-FieldDefinition,
-LabelDefinition,
-DropdownDefinition,
-ListboxDefinition,
-DropdownOptionDefinition,
-ButtonDefinition,
-TextInputDefinition,
-SwitchDefinition,
-CheckboxDefinition,
-setTheme,
-FluentDesignSystem } from '@fluentui/web-components';
+    FieldDefinition,
+    LabelDefinition,
+    DropdownDefinition,
+    ListboxDefinition,
+    DropdownOptionDefinition,
+    ButtonDefinition,
+    TextInputDefinition,
+    SwitchDefinition,
+    CheckboxDefinition,
+    BadgeDefinition,
+    setTheme,
+    FluentDesignSystem
+} from '@fluentui/web-components';
 import { webLightTheme, webDarkTheme } from '@fluentui/tokens'
 import { time } from './time.js'
 import { registrationModel } from './registrationmodel.js';
@@ -26,6 +28,7 @@ ButtonDefinition.define(FluentDesignSystem.registry)
 TextInputDefinition.define(FluentDesignSystem.registry)
 SwitchDefinition.define(FluentDesignSystem.registry)
 CheckboxDefinition.define(FluentDesignSystem.registry)
+BadgeDefinition.define(FluentDesignSystem.registry)
 
 const timeEntry = (inputEvent) => {
     let element = inputEvent.target
@@ -115,38 +118,33 @@ const toggleTimeEntry = (toggleEvent) => {
     }
 }
 
-const renderActivityTable = (activities) => {
+const renderActivityTable = () => {
+    let entries = registrationModel.getWeekEntries()
+
     let activitySelectElement = document.getElementById("acs")
 
-    if (activities && activities.length > 0) {
-        // Get first table row and use as template
-        let tableBody = document.querySelector("#alta > tbody")
+    let tableBody = document.querySelector("#alta > tbody")
 
-        if (tableBody) {
-            let childNodeList = tableBody.childNodes
-            let childArray = [...childNodeList]
-            childArray.forEach(c =>
-                tableBody.removeChild(c)
-            )
-            // Rebuild table
-            let rowIndex = 0
-            activities.forEach(a => {
-                let rowElement = document.createElement("tr")
-                rowElement.id = `alr${rowIndex++}`
-                let hoursElement = document.createElement("td")
-                let startElement = document.createElement("td")
-                let endElement = document.createElement("td")
-                let activityElement = document.createElement("td")
-                hoursElement.textContent = a.hours
-                startElement.textContent = time.format(a.startTime.toString())
-                endElement.textContent = time.format(a.endTime.toString())
-                activityElement.textContent = activitySelectElement.children[0].children[a.activity].innerText
-                rowElement.appendChild(hoursElement)
-                rowElement.appendChild(startElement)
-                rowElement.appendChild(endElement)
-                rowElement.appendChild(activityElement)
-                tableBody.appendChild(rowElement)
-            })
+    if (tableBody) {
+        let dayIndex = 0
+        for (let i = 1; i <= 5; i++) {
+            let entry = entries.get(`${i}`)
+            if (entry) {
+                let dayColumn = tableBody.children[0].children[i-1]
+                dayColumn.innerHTML = ""
+                if (entry.activities) {
+                    entry.activities.forEach(a => {
+                        let cardTemplate = document.getElementById("ac").content.cloneNode(true)
+                        cardTemplate.querySelector(".ac-act").textContent = registrationModel.activityMap.get(`${a.activity}`)
+                        cardTemplate.querySelector(".ac-sten").textContent = `${time.format(a.startTime)} - ${time.format(a.endTime)}`
+                        cardTemplate.querySelector(".ac-hours").textContent = a.hours
+                        dayColumn.appendChild(cardTemplate)
+                    })
+                }
+            }
+            let haw = registrationModel.hoursAtWork(`${i}`)
+            let ach = registrationModel.activityHours(`${i}`)
+            tableBody.children[1].children[i-1].innerHTML = `Hours @ work: ${haw} <br/> Hours of activity: ${ach}`
         }
     }
 }
@@ -167,7 +165,7 @@ const addActivity = () => {
     let hourEntryElement = document.getElementById("heh")
     let addMode = document.getElementById("tet").checked
 
-    let hours = Number.parseFloat(hourEntryElement.value.replace(",","."))
+    let hours = Number.parseFloat(hourEntryElement.value.replace(",", "."))
     registrationModel.addActivityHours(hours, activitySelectElement.value)
 }
 
@@ -199,11 +197,20 @@ const init = () => {
     registrationModel.addEventListener("daydurationchange", renderWorkHours)
     registrationModel.addEventListener("activitychange", renderActivityTable)
 
+    let activitySection = document.getElementById("act")
+    let activityTemplate = document.getElementById("he")
 
-    // document.getElementById("exlt").addEventListener("change", crossValidation)
-    // document.getElementById("ewd").addEventListener("change", changeDay)
-    // document.getElementById("tet").addEventListener("change", toggleTimeEntry)
-    document.getElementById("aact").addEventListener("click", addActivity)
+    registrationModel.activityMap.entries().forEach(act => {
+        let activityElement = activityTemplate.content.cloneNode(true)
+        activityElement.querySelector(".he-act").textContent = act[1]
+        activityElement.querySelector(".he-te").addEventListener("blur", (blurEvent) => {  
+            registrationModel.addActivityHours(
+                blurEvent.target.value, act[0]
+            )
+        })
+        activitySection.appendChild(activityElement)
+    })
+
 
 }
 document.addEventListener("DOMContentLoaded", init, false)

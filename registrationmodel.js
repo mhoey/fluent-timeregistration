@@ -4,6 +4,12 @@ const registrationModel = {
     weekDay: "1",
     localWeekEntries: new Map(),
     eventListeners: new Map(),
+    activityMap: new Map([
+        ["0","Login"],
+        ["1","License"],
+        ["2","EDN"],
+        ["3","Meetings"]
+    ]),
 
     addEventListener: (eventType, eventCallback) => {
         let eventArray = registrationModel.eventListeners.get(eventType)
@@ -24,7 +30,34 @@ const registrationModel = {
         }
     },
 
-    getWeekEntries: () => localWeekEntries,
+    getWeekEntries: () => registrationModel.localWeekEntries,
+
+    hoursAtWork: (index) => {
+        let diff = 0
+        let entry = registrationModel.localWeekEntries.get(index)
+        if (entry) {
+            if (time.valid(entry.meetingTime) && time.valid(entry.leaveTime)) {
+                diff = time.diff(entry.meetingTime, entry.leaveTime, 0)
+            }
+        }
+        return diff
+    },
+
+    activityHours: (index) => {
+        let totalDiff = 0
+        let entry = registrationModel.localWeekEntries.get(index)
+        if (entry) {
+            if (entry.activities) {
+                entry.activities.forEach(a => {
+                    if (time.valid(a.startTime) && time.valid(a.endTime)) {
+                        let diff = time.diff(a.startTime, a.endTime, 0)
+                        totalDiff += diff
+                    }        
+                })
+            }
+        }
+        return totalDiff
+    },
 
     triggerListeners: (eventType, eventData) => {
         let listeners = registrationModel.eventListeners.get(eventType)
@@ -85,6 +118,7 @@ const registrationModel = {
         registrationModel.setDayDuration(endTime, "leave")
     },
     addActivityHours: (hours, activity) => {
+        if (!hours || hours === "") return
         let fakeMeetingTime = time.timespanFromHours(800, hours)
         let dayEntry = registrationModel.today()
         if (!dayEntry) {
@@ -117,13 +151,19 @@ const registrationModel = {
             } else {
                 let latestActivityEntry = dayEntry.activities[dayEntry.activities.length - 1]
                 let activityTime = time.timespanFromHours(latestActivityEntry.endTime, hours)
-                dayEntry.activities.push(
-                    {
-                        activity: activity,
-                        startTime: activityTime[0],
-                        endTime: activityTime[1],
-                        hours: hours
-                    })
+
+                let activities = dayEntry.activities.find(a => a.activity === activity)
+                if (activities) {
+                    activities.hours = hours
+                } else {
+                    dayEntry.activities.push(
+                        {
+                            activity: activity,
+                            startTime: activityTime[0],
+                            endTime: activityTime[1],
+                            hours: hours
+                        })
+                }
             }
 
         }

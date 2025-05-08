@@ -45,33 +45,10 @@
         <fluent-text-input id="emt" data-format="hhmm" placeholder="00:00">Meeting time</fluent-text-input>
         <fluent-text-input id="elt" data-format="hhmm" placeholder="00:00">Leave time</fluent-text-input>
         </fluent-field>
-        <label for="exlt">Exclude standard lunch time</label>
         <div></div>
+        <section id="act">
+        </section>
         <fluent-checkbox id="exlt"></fluent-checkbox>
-        <fluent-field>
-            <label slot="label">Activity</label>
-            <fluent-dropdown slot="input" type="select" id="acs">
-                <fluent-listbox>
-                    <fluent-option value="0"></fluent-option>
-                    <fluent-option value="1">Login</fluent-option>
-                    <fluent-option value="2">EDN</fluent-option>
-                    <fluent-option value="3">License</fluent-option>
-                    <fluent-option value="4">Meetings</fluent-option>
-                </fluent-listbox>
-            </fluent-dropdown>
-        </fluent-field>
-        <fluent-switch id="tet">
-            <span slot="checked-message">Specific time</span>
-            <span slot="unchecked-message">Hours</span>
-        </fluent-switch>
-        <section id="timeentry" hidden>
-            <fluent-text-input appearance="filled" id="test" data-format="hhmm" placeholder="00:00">Start time</fluent-text-input>
-            <fluent-text-input appearance="filled" id="teet" data-format="hhmm" placeholder="00:00">End time</fluent-text-input>
-        </section>
-        <section id="hourentry">
-            <fluent-text-input appearance="filled" id="heh" placeholder="0,0">Hours</fluent-text-input>
-        </section>
-        <fluent-button id="aact" appearance="accent">Add</fluent-button>
         <section id="tdh"></section>
         <section id="tdat"></section>
         </section>
@@ -89,7 +66,15 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>No activity yet!</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -97,6 +82,21 @@
             </tbody>
         </table>
     </section>
+    <template id="ac">
+        <div class="ac-card">
+            <div>
+                <span class="ac-act"></span>
+                <span class="ac-sten"></span>
+            </div>
+            <div class="ac-hours"></div>
+        </div>
+    </template>
+    <template id="he">
+            <div>
+                <span class="he-act"></span>
+                <fluent-text-input class="he-te"></fluent-text-input>
+            </div>
+    </template>
 </body>
 
 </html>
