@@ -2,6 +2,7 @@ import { time } from "./time"
 
 const registrationModel = {
     weekDay: "1",
+    reduceTime: 30,
     localWeekEntries: new Map(),
     eventListeners: new Map(),
     activityMap: new Map([
@@ -37,7 +38,7 @@ const registrationModel = {
         let entry = registrationModel.localWeekEntries.get(index)
         if (entry) {
             if (time.valid(entry.meetingTime) && time.valid(entry.leaveTime)) {
-                diff = time.diff(entry.meetingTime, entry.leaveTime, 0)
+                diff = time.diff(entry.meetingTime, entry.leaveTime, registrationModel.reduceTime)
             }
         }
         return diff
@@ -77,7 +78,7 @@ const registrationModel = {
         let dayEntry = registrationModel.today()
         if (dayEntry) {
             if (dayEntry.meetingTime && dayEntry.leaveTime) {
-                let dayDuration = time.diff(dayEntry.meetingTime, dayEntry.leaveTime, 0)
+                let dayDuration = time.diff(dayEntry.meetingTime, dayEntry.leaveTime, registrationModel.reduceTime)
                 registrationModel.triggerListeners("daydurationchange", dayDuration)
             }
         }
@@ -149,13 +150,11 @@ const registrationModel = {
                     }
                 ]
             } else {
-                let latestActivityEntry = dayEntry.activities[dayEntry.activities.length - 1]
-                let activityTime = time.timespanFromHours(latestActivityEntry.endTime, hours)
-
                 let activities = dayEntry.activities.find(a => a.activity === activity)
-                if (activities) {
-                    activities.hours = hours
-                } else {
+                if (!activities) {
+                    let latestActivityEntry = dayEntry.activities[dayEntry.activities.length - 1]
+                    let activityTime = time.timespanFromHours(latestActivityEntry.endTime, hours)
+
                     dayEntry.activities.push(
                         {
                             activity: activity,
@@ -163,6 +162,11 @@ const registrationModel = {
                             endTime: activityTime[1],
                             hours: hours
                         })
+                } else {
+                    let activityTime = time.timespanFromHours(activities.startTime, hours)
+                    activities.hours = hours
+                    activities.startTime = activityTime[0]
+                    activities.endTime = activityTime[1]
                 }
             }
 

@@ -158,6 +158,7 @@ const renderAll = () => {
         document.getElementById("emt").value = ""
         document.getElementById("elt").value = ""
     }
+    renderActivityTable()
 }
 
 const addActivity = () => {
@@ -194,7 +195,7 @@ const init = () => {
     })
 
     registrationModel.addEventListener("weekdaychange", renderAll)
-    registrationModel.addEventListener("daydurationchange", renderWorkHours)
+    registrationModel.addEventListener("daydurationchange", renderActivityTable)
     registrationModel.addEventListener("activitychange", renderActivityTable)
 
     let activitySection = document.getElementById("act")
