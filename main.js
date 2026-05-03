@@ -32,9 +32,7 @@ BadgeDefinition.define(FluentDesignSystem.registry)
 
 const timeEntry = (inputEvent) => {
     let element = inputEvent.target
-    element.value = element.value.replace(/[^0-9]/, '')
-    element.value = element.value.substring(0, 4)
-
+    element.value = time.trim(element.value)
 }
 
 const timeEntryFocus = (focusEvent) => {
@@ -45,59 +43,14 @@ const timeEntryFocus = (focusEvent) => {
 
 const timeEntryBlur = (blurEvent) => {
     let elementValue = blurEvent.target.value
-    if (!time.valid(elementValue)) blurEvent.srcElement.style.color = "red"
+    if (!time.valid(elementValue)) 
+        blurEvent.srcElement.control.style.color = "red"
+    else
+        blurEvent.srcElement.control.style.color = "black"
     elementValue = time.format(elementValue)
     blurEvent.target.value = elementValue
 }
 
-// const changeDay = (changeEvent) => {
-//     let meetTimeElement = document.getElementById("emt")
-//     let leaveTimeElement = document.getElementById("elt")
-//     let excludeLunch = document.getElementById("exlt")
-//     let daySelected = changeEvent.srcElement.value
-
-//     let weekEntry = weekEntries.get(daySelected)
-//     if (weekEntry) {
-//         meetTimeElement.value = time.format(weekEntry.meetingTime)
-//         leaveTimeElement.value = time.format(weekEntry.leaveTime)
-//         excludeLunch.checked = weekEntry.excludeLunch
-//     } else {
-//         meetTimeElement.value = ""
-//         leaveTimeElement.value = ""
-//         excludeLunch.checked = false
-//     }
-//     crossValidation()
-// }
-
-// const crossValidation = () => {
-//     let daySelectElement = document.getElementById("ewd")
-//     let meetTimeElement = document.getElementById("emt")
-//     let leaveTimeElement = document.getElementById("elt")
-//     let excludeLunch = document.getElementById("exlt")
-
-//     if (meetTimeElement && meetTimeElement.value != "" && leaveTimeElement && leaveTimeElement.value != "") {
-//         let meetValue = meetTimeElement.value.replace(/[^0-9]/g, '')
-//         let leaveValue = leaveTimeElement.value.replace(/[^0-9]/g, '')
-
-//         if (validTime(meetValue) && validTime(leaveValue)) {
-//             let reduceTime = 0
-//             if (excludeLunch.checked) reduceTime = 30
-
-//             let diff = diffTime(meetValue, leaveValue, reduceTime)
-
-//             let weekDay = daySelectElement.value
-//             weekEntries.set(weekDay, {
-//                 meetingTime: meetValue,
-//                 leaveTime: leaveValue,
-//                 excludeLunch: excludeLunch.checked,
-//             })
-//         } else {
-//             totalDaySection.innerText = ""
-//         }
-//     } else {
-//         totalDaySection.innerText = ""
-//     }
-// }
 
 const renderWorkHours = (workHours) => {
     let totalDaySection = document.getElementById("tdh")
@@ -150,24 +103,33 @@ const renderActivityTable = () => {
 }
 
 const renderAll = () => {
-    let today = registrationModel.today()
-    if (today) {
-        document.getElementById("emt").value = time.format(today.meetingTime)
-        document.getElementById("elt").value = time.format(today.leaveTime)
-    } else {
-        document.getElementById("emt").value = ""
-        document.getElementById("elt").value = ""
-    }
-    renderActivityTable()
 }
 
-const addActivity = () => {
-    let activitySelectElement = document.getElementById("acs")
-    let hourEntryElement = document.getElementById("heh")
-    let addMode = document.getElementById("tet").checked
+const renderDayTotal = (overlapsActivity) => {
+    if (overlapsActivity) {
+        const message = "The activity you are trying to add overlaps with an existing activity. Please adjust the time range of the activity you are trying to add."
+        alert(message)
+        return
+    }
+    const dayTotal = registrationModel.calculateDayTotal()
+    const th = document.getElementById("th")
+    const tm = document.getElementById("tm")
 
-    let hours = Number.parseFloat(hourEntryElement.value.replace(",", "."))
-    registrationModel.addActivityHours(hours, activitySelectElement.value)
+    th.innerText = Math.floor(dayTotal)
+    tm.innerText = Math.round(dayTotal * 100 - (Math.floor(dayTotal) * 100))
+}
+
+
+const addActivity = () => {
+    const start = document.getElementById("emt").value
+    const end = document.getElementById("elt").value
+
+    const trimmedStart = time.trim(start)
+    const trimmedEnd = time.trim(end)
+
+     if (time.valid(trimmedStart) && time.valid(trimmedEnd)) {
+        registrationModel.addActivity(trimmedStart, trimmedEnd)
+    }
 }
 
 
@@ -177,7 +139,6 @@ const init = () => {
     let timeFields = Array.from(queryResult)
     timeFields.map(tf => {
         tf.addEventListener("focus", timeEntryFocus)
-        // tf.addEventListener("input", (inputEvent) => { timeEntry(inputEvent); crossValidation() })
         tf.addEventListener("blur", timeEntryBlur)
     })
 
@@ -186,32 +147,10 @@ const init = () => {
         registrationModel.setWeekDay(changeEvent.target.value)
     })
 
-    document.getElementById("emt").addEventListener("blur", (blurEvent) => {
-        registrationModel.setDayDurationStart(blurEvent.target.value)
-    })
+    document.getElementById("aact").addEventListener("click", () => { addActivity() })
 
-    document.getElementById("elt").addEventListener("blur", (blurEvent) => {
-        registrationModel.setDayDurationEnd(blurEvent.target.value)
-    })
-
-    registrationModel.addEventListener("weekdaychange", renderAll)
-    registrationModel.addEventListener("daydurationchange", renderActivityTable)
-    registrationModel.addEventListener("activitychange", renderActivityTable)
-
-    let activitySection = document.getElementById("act")
-    let activityTemplate = document.getElementById("he")
-
-    registrationModel.activityMap.entries().forEach(act => {
-        let activityElement = activityTemplate.content.cloneNode(true)
-        activityElement.querySelector(".he-act").textContent = act[1]
-        activityElement.querySelector(".he-te").addEventListener("blur", (blurEvent) => {  
-            registrationModel.addActivityHours(
-                blurEvent.target.value, act[0]
-            )
-        })
-        activitySection.appendChild(activityElement)
-    })
-
-
+    //registrationModel.addEventListener("weekdaychange", renderAll)
+    //registrationModel.addEventListener("daydurationchange", renderActivityTable)
+    registrationModel.addEventListener("activitychange", renderDayTotal)
 }
 document.addEventListener("DOMContentLoaded", init, false)
