@@ -76,6 +76,20 @@
             text-align: center;
             border-radius: 16px;
         }
+
+        .daycard {
+            border: 1px solid lightgray;
+            margin-bottom: 20px;
+        }
+
+        .weekday {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .weektotalduration {
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -111,6 +125,11 @@
         <section id="tdh"></section>
         <section id="tdat"></section>
     </section>
+
+    <section id="weekday-sections">
+        <!-- Weekday sections will be dynamically generated here -->
+    </section>
+
     <template id="weekday-template">
         <section class="daycard">
             <h2 class="weekday"></h2>
@@ -124,19 +143,9 @@
                 </thead>
                 <tbody></tbody>
             </table>
-            <table class="totaldayduration">
-                <thead>
-                <tr>
-                    <th>Day start</th>
-                    <th>Day end</th>
-                    <th>Total</th>
-                    <td class="totalduration"></td>
-                </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
         </section>
     </template>
+
     <template id="weektotal-template">
         <h2 class="weektotal">Weekly Total</h2>
         <table class="weektotaltable">
@@ -156,6 +165,7 @@
                     <td></td>
                     <td class="weektotalduration"></td>
                 </tr>
+            </tfoot>
         </table>
     </template>
 </body>

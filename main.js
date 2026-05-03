@@ -16,7 +16,6 @@ import { webLightTheme, webDarkTheme } from '@fluentui/tokens'
 import { time } from './time.js'
 import { registrationModel } from './registrationmodel.js';
 
-
 setTheme(webLightTheme)
 
 FieldDefinition.define(FluentDesignSystem.registry)
@@ -50,7 +49,6 @@ const timeEntryBlur = (blurEvent) => {
     elementValue = time.format(elementValue)
     blurEvent.target.value = elementValue
 }
-
 
 const renderWorkHours = (workHours) => {
     let totalDaySection = document.getElementById("tdh")
@@ -119,7 +117,6 @@ const renderDayTotal = (overlapsActivity) => {
     tm.innerText = Math.round(dayTotal * 100 - (Math.floor(dayTotal) * 100))
 }
 
-
 const addActivity = () => {
     const start = document.getElementById("emt").value
     const end = document.getElementById("elt").value
@@ -132,6 +129,65 @@ const addActivity = () => {
     }
 }
 
+const renderWeekdaySections = () => {
+    const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+    const weekdaySection = document.getElementById("weekday-sections");
+    weekdaySection.innerHTML = ""; // Clear existing content
+
+    weekdays.forEach((day, index) => {
+        const template = document.getElementById("weekday-template").content.cloneNode(true);
+        const dayCard = template.querySelector(".daycard");
+        const weekdayHeader = template.querySelector(".weekday");
+        const activityTableBody = template.querySelector(".activitytable > tbody");
+
+        weekdayHeader.textContent = day;
+        const activities = registrationModel.activitiesForDay(`${index + 1}`);
+        if (activities) {
+            activities.forEach(a => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${time.format(a.startTime)}</td>
+                    <td>${time.format(a.endTime)}</td>
+                    <td>${a.hours}</td>
+                `;
+                activityTableBody.appendChild(row);
+            });
+        }
+
+        weekdaySection.appendChild(dayCard);
+    });
+};
+
+const renderWeekTotal = () => {
+    const weekTotalTemplate = document.getElementById("weektotal-template").content.cloneNode(true);
+    const weekTotalSection = document.querySelector("#weekday-sections");
+    const weekTotalTableBody = weekTotalTemplate.querySelector(".weektotaltable > tbody");
+
+    for (let i = 1; i <= 5; i++) {
+        const entry = registrationModel.getWeekEntries().get(`${i}`);
+        if (entry) {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${weekdays[i - 1]}</td>
+                <td></td>
+                <td></td>
+                <td>${registrationModel.activityHours(`${i}`)}</td>
+            `;
+            weekTotalTableBody.appendChild(row);
+        }
+    }
+
+    const totalRow = document.createElement("tr");
+    totalRow.innerHTML = `
+        <td>Total</td>
+        <td></td>
+        <td></td>
+        <td class="weektotalduration">${registrationModel.calculateDayTotal()}</td>
+    `;
+    weekTotalTableBody.appendChild(totalRow);
+
+    weekTotalSection.appendChild(weekTotalTemplate);
+};
 
 const init = () => {
     // Assign event listeners
@@ -152,5 +208,8 @@ const init = () => {
     //registrationModel.addEventListener("weekdaychange", renderAll)
     //registrationModel.addEventListener("daydurationchange", renderActivityTable)
     registrationModel.addEventListener("activitychange", renderDayTotal)
+
+    renderWeekdaySections();
+    renderWeekTotal();
 }
 document.addEventListener("DOMContentLoaded", init, false)
