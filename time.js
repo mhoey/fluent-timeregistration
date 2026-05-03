@@ -61,7 +61,13 @@ const time = {
             timeValue = `${left}:${right}`
         }
         return timeValue
-    }    
+    },
+    
+    trim : (timeValue) => {
+        let trimmedValue = timeValue.replace(/[^0-9]/, '')
+        return trimmedValue.substring(0, 4)
+    }
+
 }
 
 export { time }

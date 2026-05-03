@@ -5,12 +5,7 @@ const registrationModel = {
     reduceTime: 30,
     localWeekEntries: new Map(),
     eventListeners: new Map(),
-    activityMap: new Map([
-        ["0","Login"],
-        ["1","License"],
-        ["2","EDN"],
-        ["3","Meetings"]
-    ]),
+
 
     addEventListener: (eventType, eventCallback) => {
         let eventArray = registrationModel.eventListeners.get(eventType)
@@ -32,17 +27,6 @@ const registrationModel = {
     },
 
     getWeekEntries: () => registrationModel.localWeekEntries,
-
-    hoursAtWork: (index) => {
-        let diff = 0
-        let entry = registrationModel.localWeekEntries.get(index)
-        if (entry) {
-            if (time.valid(entry.meetingTime) && time.valid(entry.leaveTime)) {
-                diff = time.diff(entry.meetingTime, entry.leaveTime, registrationModel.reduceTime)
-            }
-        }
-        return diff
-    },
 
     activityHours: (index) => {
         let totalDiff = 0
@@ -74,106 +58,69 @@ const registrationModel = {
         }
     },
 
-    triggerDayDurationEvent: () => {
-        let dayEntry = registrationModel.today()
-        if (dayEntry) {
-            if (dayEntry.meetingTime && dayEntry.leaveTime) {
-                let dayDuration = time.diff(dayEntry.meetingTime, dayEntry.leaveTime, registrationModel.reduceTime)
-                registrationModel.triggerListeners("daydurationchange", dayDuration)
-            }
-        }
-    },
-
-    triggerActivityChangeEvent: (activities) => {
-        registrationModel.triggerListeners("activitychange", activities) 
+    triggerActivityChangeEvent: (overlapsActivity) => {
+        registrationModel.triggerListeners("activitychange", overlapsActivity) 
     },
 
     today : () => {
         return registrationModel.localWeekEntries.get(registrationModel.weekDay)
     },
 
+    activitiesForDay: (index) => {
+        let entry = registrationModel.localWeekEntries.get(index)
+        if (entry) {
+            return entry.activities
+        }
+        return []
+    },
+
+    calculateDayTotal : () => {
+        let dayEntry = registrationModel.today()
+        if (dayEntry) {
+            if (dayEntry.activities) {
+                let total = 0
+                dayEntry.activities.forEach(a => {
+                    const diff = time.diff(a.startTime, a.endTime, 0)
+                    total += diff
+                })
+                return total
+            }
+        }
+        return 0
+    },
+
     setWeekDay: (weekDay) => {
         registrationModel.weekDay = weekDay
         registrationModel.triggerListeners("weekdaychange")
-        registrationModel.triggerDayDurationEvent()
     },
-    setDayDuration : (time, meetOrLeave) => {
-        if (!time) return
-        time = time.replace(/[^0-9]/g, '')
+
+    addActivity: (startTime, endTime) => {
+        const isRangeOverlappingExistingActivities = (startTime, endTime, activities) => {
+            for (const activity of activities) {
+                if (startTime < activity.endTime && endTime > activity.startTime) {
+                    console.log(`Activity overlap detected:`)
+                    console.log(`  Attempted: ${startTime} - ${endTime}`)
+                    console.log(`  Conflicting: ${activity.startTime} - ${activity.endTime}`)
+                    return true
+                }
+            }
+            return false
+        }
         let dayEntry = registrationModel.today()
         if (!dayEntry) {
             registrationModel.localWeekEntries.set(registrationModel.weekDay, {})
             dayEntry = registrationModel.localWeekEntries.get(registrationModel.weekDay)
         }
-        switch (meetOrLeave) {
-            case "meet": dayEntry.meetingTime = time; break
-            case "leave": dayEntry.leaveTime = time; break
+        if (!dayEntry.activities) {
+            dayEntry.activities = []
         }
-        console.log(dayEntry)
-        registrationModel.triggerDayDurationEvent()
-    },
-    setDayDurationStart: (startTime) => {
-        registrationModel.setDayDuration(startTime, "meet")
-    },
-    setDayDurationEnd: (endTime) => {
-        registrationModel.setDayDuration(endTime, "leave")
-    },
-    addActivityHours: (hours, activity) => {
-        if (!hours || hours === "") return
-        let fakeMeetingTime = time.timespanFromHours(800, hours)
-        let dayEntry = registrationModel.today()
-        if (!dayEntry) {
-            // Ok not found we need to create a default entry
-            registrationModel.localWeekEntries.set(registrationModel.weekDay, {
-                meetingTime: fakeMeetingTime[0],
-                leaveTime: fakeMeetingTime[1],
-                excludeLunch: false,
-            })
-            dayEntry = registrationModel.localWeekEntries.get(registrationModel.weekDay)
-            // Create a list of activities on the day
-            dayEntry.activities = [
-                {
-                    activity: activity,
-                    startTime: fakeMeetingTime[0],
-                    endTime: fakeMeetingTime[1],
-                    hours: hours
-                }
-            ]
+        if (!isRangeOverlappingExistingActivities(startTime, endTime, dayEntry.activities)) {
+            dayEntry.activities.push({startTime, endTime})
+            registrationModel.triggerActivityChangeEvent(false)
         } else {
-            if (!dayEntry.activities || dayEntry.activities.length === 0) {
-                dayEntry.activities = [
-                    {
-                        activity: activity,
-                        startTime: fakeMeetingTime[0],
-                        endTime: fakeMeetingTime[1],
-                        hours: hours
-                    }
-                ]
-            } else {
-                let activities = dayEntry.activities.find(a => a.activity === activity)
-                if (!activities) {
-                    let latestActivityEntry = dayEntry.activities[dayEntry.activities.length - 1]
-                    let activityTime = time.timespanFromHours(latestActivityEntry.endTime, hours)
-
-                    dayEntry.activities.push(
-                        {
-                            activity: activity,
-                            startTime: activityTime[0],
-                            endTime: activityTime[1],
-                            hours: hours
-                        })
-                } else {
-                    let activityTime = time.timespanFromHours(activities.startTime, hours)
-                    activities.hours = hours
-                    activities.startTime = activityTime[0]
-                    activities.endTime = activityTime[1]
-                }
-            }
-
+            registrationModel.triggerActivityChangeEvent(true)
         }
-        registrationModel.triggerActivityChangeEvent(dayEntry.activities)
-    }
-
+    },
 }
 
 export {

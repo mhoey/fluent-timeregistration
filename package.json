@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -16,5 +16,7 @@
     "@fluentui/web-components": "^3.0.0-beta.93",
     "@microsoft/fast-element": "^2.2.1",
     "yarn": "^1.22.22"
-  }
+  },
+  "main": "index.js",
+  "license": "MIT"
 }
