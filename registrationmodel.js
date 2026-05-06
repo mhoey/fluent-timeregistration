@@ -7,7 +7,6 @@ const registrationModel = {
     localWeekEntries: new Map(),
     eventListeners: new Map(),
 
-
     addEventListener: (eventType, eventCallback) => {
         let eventArray = registrationModel.eventListeners.get(eventType)
         if (eventArray) {
@@ -33,9 +32,9 @@ const registrationModel = {
 
     getWeekEntries: () => registrationModel.localWeekEntries,
 
-    activityHours: (index) => {
+    calculateDayHours: (index = null) => {
         let totalDiff = 0
-        let entry = registrationModel.localWeekEntries.get(index)
+        let entry = index ? registrationModel.localWeekEntries.get(index) : registrationModel.today()
         if (entry) {
             if (entry.activities) {
                 entry.activities.forEach(a => {
@@ -46,6 +45,27 @@ const registrationModel = {
                 })
             }
         }
+
+        // Check for lunch break reduction
+        if (registrationModel.reduceLunch) {
+            const lunchBreakStart = "1130"
+            const lunchBreakEnd = "1230"
+            let lunchBreakOverlap = false
+
+            entry.activities.forEach(a => {
+                if (time.valid(a.startTime) && time.valid(a.endTime)) {
+                    if ((a.startTime < lunchBreakEnd && a.endTime > lunchBreakStart) || 
+                        (a.startTime >= lunchBreakStart && a.endTime <= lunchBreakEnd)) {
+                        lunchBreakOverlap = true
+                    }
+                }
+            })
+
+            if (lunchBreakOverlap) {
+                totalDiff -= registrationModel.reduceTime / 60 // Convert minutes to hours
+            }
+        }
+
         return totalDiff
     },
 
@@ -58,8 +78,7 @@ const registrationModel = {
                 } else {
                     x()
                 }
-            }
-            )
+            })
         }
     },
 
@@ -77,21 +96,6 @@ const registrationModel = {
             return entry.activities
         }
         return []
-    },
-
-    calculateDayTotal : () => {
-        let dayEntry = registrationModel.today()
-        if (dayEntry) {
-            if (dayEntry.activities) {
-                let total = 0
-                dayEntry.activities.forEach(a => {
-                    const diff = time.diff(a.startTime, a.endTime, 0)
-                    total += diff
-                })
-                return total
-            }
-        }
-        return 0
     },
 
     setWeekDay: (weekDay) => {

@@ -93,7 +93,7 @@ const renderActivityTable = () => {
                     })
                 }
             }
-            let haw = registrationModel.hoursAtWork(`${i}`)
+            let haw = registrationModel.calculateDayHours(`${i}`)
             let ach = registrationModel.activityHours(`${i}`)
             tableBody.children[1].children[i-1].innerHTML = `Hours @ work: ${haw} <br/> Hours of activity: ${ach}`
         }
@@ -109,7 +109,7 @@ const renderDayTotal = (overlapsActivity) => {
         alert(message)
         return
     }
-    const dayTotal = registrationModel.calculateDayTotal()
+    const dayTotal = registrationModel.calculateDayHours()
     const th = document.getElementById("th")
     const tm = document.getElementById("tm")
 
@@ -169,7 +169,7 @@ const renderWeekTotal = () => {
     let totalWeekHours = 0
     for (let i = 1; i <= 5; i++) {
         const entry = registrationModel.getWeekEntries().get(`${i}`);
-        const dayHours = registrationModel.activityHours(`${i}`)
+        const dayHours = registrationModel.calculateDayHours(`${i}`)
         if (entry) {
             let dayActivityStart = entry.activities ? entry.activities[0].startTime : null
             let dayActivityEnd = entry.activities ? entry.activities[entry.activities.length - 1].endTime : null
@@ -188,9 +188,6 @@ const renderWeekTotal = () => {
             totalWeekHours += dayHours
         }
     }
-
-
-
 
     const totalRow = document.createElement("tr");
     totalRow.innerHTML = `
@@ -225,6 +222,12 @@ const init = () => {
     })
 
     document.getElementById("aact").addEventListener("click", () => { addActivity() })
+
+    // Handle lunch break checkbox
+    const exltCheckbox = document.getElementById("exlt")
+    exltCheckbox.addEventListener("change", (changeEvent) => {
+        registrationModel.setReduceLunch(changeEvent.target.checked)
+    })
 
     //registrationModel.addEventListener("weekdaychange", renderAll)
     //registrationModel.addEventListener("daydurationchange", renderActivityTable)
