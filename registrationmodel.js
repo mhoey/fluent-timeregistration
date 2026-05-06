@@ -41,28 +41,29 @@ const registrationModel = {
                     if (time.valid(a.startTime) && time.valid(a.endTime)) {
                         let diff = time.diff(a.startTime, a.endTime, 0)
                         totalDiff += diff
-                    }        
+                    }
                 })
             }
-        }
 
-        // Check for lunch break reduction
-        if (registrationModel.reduceLunch) {
-            const lunchBreakStart = "1130"
-            const lunchBreakEnd = "1230"
-            let lunchBreakOverlap = false
 
-            entry.activities.forEach(a => {
-                if (time.valid(a.startTime) && time.valid(a.endTime)) {
-                    if ((a.startTime < lunchBreakEnd && a.endTime > lunchBreakStart) || 
-                        (a.startTime >= lunchBreakStart && a.endTime <= lunchBreakEnd)) {
-                        lunchBreakOverlap = true
+            // Check for lunch break reduction
+            if (registrationModel.reduceLunch) {
+                const lunchBreakStart = "1130"
+                const lunchBreakEnd = "1230"
+                let lunchBreakOverlap = false
+
+                entry.activities.forEach(a => {
+                    if (time.valid(a.startTime) && time.valid(a.endTime)) {
+                        if ((a.startTime < lunchBreakEnd && a.endTime > lunchBreakStart) ||
+                            (a.startTime >= lunchBreakStart && a.endTime <= lunchBreakEnd)) {
+                            lunchBreakOverlap = true
+                        }
                     }
-                }
-            })
+                })
 
-            if (lunchBreakOverlap) {
-                totalDiff -= registrationModel.reduceTime / 60 // Convert minutes to hours
+                if (lunchBreakOverlap) {
+                    totalDiff -= registrationModel.reduceTime / 60 // Convert minutes to hours
+                }
             }
         }
 
@@ -83,10 +84,10 @@ const registrationModel = {
     },
 
     triggerActivityChangeEvent: (overlapsActivity) => {
-        registrationModel.triggerListeners("activitychange", overlapsActivity) 
+        registrationModel.triggerListeners("activitychange", overlapsActivity)
     },
 
-    today : () => {
+    today: () => {
         return registrationModel.localWeekEntries.get(registrationModel.weekDay)
     },
 
@@ -124,7 +125,7 @@ const registrationModel = {
             dayEntry.activities = []
         }
         if (!isRangeOverlappingExistingActivities(startTime, endTime, dayEntry.activities)) {
-            dayEntry.activities.push({startTime, endTime})
+            dayEntry.activities.push({ startTime, endTime })
             registrationModel.triggerActivityChangeEvent(false)
         } else {
             registrationModel.triggerActivityChangeEvent(true)
