@@ -161,26 +161,36 @@ const renderWeekdaySections = () => {
 };
 
 const renderWeekTotal = () => {
-    const weekTotalTemplate = document.getElementById("weektotal-template").content.cloneNode(true);
-    const weekTotalSection = document.querySelector("#weekday-sections");
-    const weekTotalTableBody = weekTotalTemplate.querySelector(".weektotaltable > tbody");
+    const weekTotalTemplate = document.getElementById("weektotal-template").content.cloneNode(true)
+    const weekTotalSection = document.querySelector("#weekday-sections")
+    const weekTotalTableBody = weekTotalTemplate.querySelector(".weektotaltable > tbody")
+    const weekTotalTableFoot = weekTotalTemplate.querySelector(".weektotaltable > tfoot")   
 
     let totalWeekHours = 0
     for (let i = 1; i <= 5; i++) {
         const entry = registrationModel.getWeekEntries().get(`${i}`);
         const dayHours = registrationModel.activityHours(`${i}`)
         if (entry) {
+            let dayActivityStart = entry.activities ? entry.activities[0].startTime : null
+            let dayActivityEnd = entry.activities ? entry.activities[entry.activities.length - 1].endTime : null
+
+            dayActivityStart = dayActivityStart==null ? "" : time.format(dayActivityStart)
+            dayActivityEnd = dayActivityEnd==null ? "" : time.format(dayActivityEnd)
+
             const row = document.createElement("tr");
             row.innerHTML = `
                 <td>${weekdays[i - 1]}</td>
-                <td></td>
-                <td></td>
+                <td>${dayActivityStart}</td>
+                <td>${dayActivityEnd}</td>
                 <td>${dayHours}</td>
             `;
             weekTotalTableBody.appendChild(row);
             totalWeekHours += dayHours
         }
     }
+
+
+
 
     const totalRow = document.createElement("tr");
     totalRow.innerHTML = `
@@ -189,7 +199,7 @@ const renderWeekTotal = () => {
         <td></td>
         <td class="weektotalduration">${totalWeekHours}</td>
     `;
-    weekTotalTableBody.appendChild(totalRow);
+    weekTotalTableFoot.appendChild(totalRow);
 
     weekTotalSection.appendChild(weekTotalTemplate);
 };

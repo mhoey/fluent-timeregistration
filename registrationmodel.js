@@ -2,6 +2,7 @@ import { time } from "./time"
 
 const registrationModel = {
     weekDay: "1",
+    reduceLunch: true,
     reduceTime: 30,
     localWeekEntries: new Map(),
     eventListeners: new Map(),
@@ -24,6 +25,10 @@ const registrationModel = {
                 eventArray.splice(listenerIndex, 1)
             }
         }
+    },
+
+    setReduceLunch: (reduceLunch) => {
+        registrationModel.reduceLunch = reduceLunch
     },
 
     getWeekEntries: () => registrationModel.localWeekEntries,
