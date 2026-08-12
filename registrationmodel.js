@@ -39,35 +39,32 @@ const registrationModel = {
             if (entry.activities) {
                 entry.activities.forEach(a => {
                     if (time.valid(a.startTime) && time.valid(a.endTime)) {
-                        let diff = time.diff(a.startTime, a.endTime, 0)
+                        let diff = time.diff(
+                            a.startTime, 
+                            a.endTime, 
+                            registrationModel.isLunchBreak(a) ? registrationModel.reduceTime:0)
                         totalDiff += diff
                     }
                 })
             }
+        }
+        return totalDiff
+    },
 
+    isLunchBreak: (a) => {
+        const lunchBreakStart = "1130"
+        const lunchBreakEnd = "1200"
+        let lunchBreakOverlap = false
 
-            // Check for lunch break reduction
-            if (registrationModel.reduceLunch) {
-                const lunchBreakStart = "1130"
-                const lunchBreakEnd = "1230"
-                let lunchBreakOverlap = false
-
-                entry.activities.forEach(a => {
-                    if (time.valid(a.startTime) && time.valid(a.endTime)) {
-                        if ((a.startTime < lunchBreakEnd && a.endTime > lunchBreakStart) ||
-                            (a.startTime >= lunchBreakStart && a.endTime <= lunchBreakEnd)) {
-                            lunchBreakOverlap = true
-                        }
-                    }
-                })
-
-                if (lunchBreakOverlap) {
-                    totalDiff -= registrationModel.reduceTime / 60 // Convert minutes to hours
-                }
+        if (registrationModel.reduceLunch
+            && time.valid(a.startTime) 
+            && time.valid(a.endTime)) {
+            if ((a.startTime < lunchBreakEnd && a.endTime > lunchBreakStart) ||
+                (a.startTime >= lunchBreakStart && a.endTime <= lunchBreakEnd)) {
+                lunchBreakOverlap = true
             }
         }
-
-        return totalDiff
+        return lunchBreakOverlap
     },
 
     triggerListeners: (eventType, eventData) => {

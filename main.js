@@ -11,10 +11,10 @@ import {
     BadgeDefinition,
     setTheme,
     FluentDesignSystem
-} from '@fluentui/web-components';
+} from '@fluentui/web-components'
 import { webLightTheme, webDarkTheme } from '@fluentui/tokens'
 import { time } from './time.js'
-import { registrationModel } from './registrationmodel.js';
+import { registrationModel } from './registrationmodel.js'
 
 setTheme(webLightTheme)
 
@@ -42,7 +42,7 @@ const timeEntryFocus = (focusEvent) => {
 
 const timeEntryBlur = (blurEvent) => {
     let elementValue = blurEvent.target.value
-    if (!time.valid(elementValue)) 
+    if (!time.valid(elementValue))
         blurEvent.srcElement.control.style.color = "red"
     else
         blurEvent.srcElement.control.style.color = "black"
@@ -81,7 +81,7 @@ const renderActivityTable = () => {
         for (let i = 1; i <= 5; i++) {
             let entry = entries.get(`${i}`)
             if (entry) {
-                let dayColumn = tableBody.children[0].children[i-1]
+                let dayColumn = tableBody.children[0].children[i - 1]
                 dayColumn.innerHTML = ""
                 if (entry.activities) {
                     entry.activities.forEach(a => {
@@ -95,7 +95,7 @@ const renderActivityTable = () => {
             }
             let haw = registrationModel.calculateDayHours(`${i}`)
             let ach = registrationModel.activityHours(`${i}`)
-            tableBody.children[1].children[i-1].innerHTML = `Hours @ work: ${haw} <br/> Hours of activity: ${ach}`
+            tableBody.children[1].children[i - 1].innerHTML = `Hours @ work: ${haw} <br/> Hours of activity: ${ach}`
         }
     }
 }
@@ -124,82 +124,82 @@ const addActivity = () => {
     const trimmedStart = time.trim(start)
     const trimmedEnd = time.trim(end)
 
-     if (time.valid(trimmedStart) && time.valid(trimmedEnd)) {
+    if (time.valid(trimmedStart) && time.valid(trimmedEnd)) {
         registrationModel.addActivity(trimmedStart, trimmedEnd)
+        document.getElementById("emt").value = time.format('0000')
+        document.getElementById("elt").value = time.format('0000')
     }
 }
 
-const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
 
 
 const renderWeekdaySections = () => {
-    const weekdaySection = document.getElementById("weekday-sections");
-    weekdaySection.innerHTML = ""; // Clear existing content
+    const weekdaySection = document.getElementById("weekday-sections")
+    weekdaySection.innerHTML = "" // Clear existing content
 
     weekdays.forEach((day, index) => {
-        const template = document.getElementById("weekday-template").content.cloneNode(true);
-        const dayCard = template.querySelector(".daycard");
-        const weekdayHeader = template.querySelector(".weekday");
-        const activityTableBody = template.querySelector(".activitytable > tbody");
+        const activities = registrationModel.activitiesForDay(`${index + 1}`)
+        if (activities.length != 0) {
+            const template = document.getElementById("weekday-template").content.cloneNode(true)
+            const dayCard = template.querySelector(".daycard")
+            const weekdayHeader = template.querySelector(".weekday")
+            const dayTotal = template.querySelector(".daytotalduration")
+            const activityTableBody = template.querySelector(".activitytable > tbody")
 
-        weekdayHeader.textContent = day;
-        const activities = registrationModel.activitiesForDay(`${index+1}`);
-        if (activities) {
+            weekdayHeader.textContent = day
+            dayTotal.textContent = registrationModel.calculateDayHours(`${index + 1}`)
             activities.forEach(a => {
-                const row = document.createElement("tr");
+                const row = document.createElement("tr")
                 row.innerHTML = `
-                    <td>${time.format(a.startTime)}</td>
-                    <td>${time.format(a.endTime)}</td>
-                    <td>${time.diff(a.startTime, a.endTime, 0)}</td>
-                `;
-                activityTableBody.appendChild(row);
-            });
+                        <td>${time.format(a.startTime)}</td>
+                        <td>${time.format(a.endTime)}</td>
+                        <td>${time.diff(a.startTime, a.endTime, registrationModel.isLunchBreak(a) ? registrationModel.reduceTime : 0)}</td>
+                    `
+                activityTableBody.appendChild(row)
+            })
+            weekdaySection.appendChild(dayCard)
+        } else {
+            const template = document.getElementById("weekday-template-no-entry").content.cloneNode(true)
+            const dayCard = template.querySelector(".daycard")
+            const weekdayHeader = template.querySelector(".weekday")
+            weekdayHeader.textContent = day
+            weekdaySection.appendChild(dayCard)
         }
 
-        weekdaySection.appendChild(dayCard);
-    });
-};
+    })
+}
 
 const renderWeekTotal = () => {
     const weekTotalTemplate = document.getElementById("weektotal-template").content.cloneNode(true)
     const weekTotalSection = document.querySelector("#weekday-sections")
     const weekTotalTableBody = weekTotalTemplate.querySelector(".weektotaltable > tbody")
-    const weekTotalTableFoot = weekTotalTemplate.querySelector(".weektotaltable > tfoot")   
+    const weekTotalTableFoot = weekTotalTemplate.querySelector(".weektotaltable > tfoot")
 
     let totalWeekHours = 0
     for (let i = 1; i <= 5; i++) {
-        const entry = registrationModel.getWeekEntries().get(`${i}`);
+        const entry = registrationModel.getWeekEntries().get(`${i}`)
         const dayHours = registrationModel.calculateDayHours(`${i}`)
         if (entry) {
-            let dayActivityStart = entry.activities ? entry.activities[0].startTime : null
-            let dayActivityEnd = entry.activities ? entry.activities[entry.activities.length - 1].endTime : null
-
-            dayActivityStart = dayActivityStart==null ? "" : time.format(dayActivityStart)
-            dayActivityEnd = dayActivityEnd==null ? "" : time.format(dayActivityEnd)
-
-            const row = document.createElement("tr");
+            const row = document.createElement("tr")
             row.innerHTML = `
                 <td>${weekdays[i - 1]}</td>
-                <td>${dayActivityStart}</td>
-                <td>${dayActivityEnd}</td>
                 <td>${dayHours}</td>
-            `;
-            weekTotalTableBody.appendChild(row);
+            `
+            weekTotalTableBody.appendChild(row)
             totalWeekHours += dayHours
         }
     }
 
-    const totalRow = document.createElement("tr");
+    const totalRow = document.createElement("tr")
     totalRow.innerHTML = `
         <td>Total</td>
-        <td></td>
-        <td></td>
         <td class="weektotalduration">${totalWeekHours}</td>
-    `;
-    weekTotalTableFoot.appendChild(totalRow);
+    `
+    weekTotalTableFoot.appendChild(totalRow)
 
-    weekTotalSection.appendChild(weekTotalTemplate);
-};
+    weekTotalSection.appendChild(weekTotalTemplate)
+}
 
 const renderActivityChange = () => {
     renderDayTotal()
