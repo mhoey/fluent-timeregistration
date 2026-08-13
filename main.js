@@ -1,33 +1,5 @@
-import {
-    FieldDefinition,
-    LabelDefinition,
-    DropdownDefinition,
-    ListboxDefinition,
-    DropdownOptionDefinition,
-    ButtonDefinition,
-    TextInputDefinition,
-    SwitchDefinition,
-    CheckboxDefinition,
-    BadgeDefinition,
-    setTheme,
-    FluentDesignSystem
-} from '@fluentui/web-components'
-import { webLightTheme, webDarkTheme } from '@fluentui/tokens'
 import { time } from './time.js'
 import { registrationModel } from './registrationmodel.js'
-
-setTheme(webLightTheme)
-
-FieldDefinition.define(FluentDesignSystem.registry)
-LabelDefinition.define(FluentDesignSystem.registry)
-DropdownDefinition.define(FluentDesignSystem.registry)
-ListboxDefinition.define(FluentDesignSystem.registry)
-DropdownOptionDefinition.define(FluentDesignSystem.registry)
-ButtonDefinition.define(FluentDesignSystem.registry)
-TextInputDefinition.define(FluentDesignSystem.registry)
-SwitchDefinition.define(FluentDesignSystem.registry)
-CheckboxDefinition.define(FluentDesignSystem.registry)
-BadgeDefinition.define(FluentDesignSystem.registry)
 
 const timeEntry = (inputEvent) => {
     let element = inputEvent.target
@@ -37,6 +9,7 @@ const timeEntry = (inputEvent) => {
 const timeEntryFocus = (focusEvent) => {
     let element = focusEvent.target
     if (element.value) element.value = element.value.replace(':', '')
+    focusEvent.srcElement.select()    
     focusEvent.srcElement.style.color = "black"
 }
 
@@ -48,12 +21,6 @@ const timeEntryBlur = (blurEvent) => {
         blurEvent.srcElement.control.style.color = "black"
     elementValue = time.format(elementValue)
     blurEvent.target.value = elementValue
-}
-
-const renderWorkHours = (workHours) => {
-    let totalDaySection = document.getElementById("tdh")
-    let daymessage = `You have been at work for ${workHours} hours`
-    totalDaySection.innerText = daymessage
 }
 
 const toggleTimeEntry = (toggleEvent) => {
@@ -103,20 +70,6 @@ const renderActivityTable = () => {
 const renderAll = () => {
 }
 
-const renderDayTotal = (overlapsActivity) => {
-    if (overlapsActivity) {
-        const message = "The activity you are trying to add overlaps with an existing activity. Please adjust the time range of the activity you are trying to add."
-        alert(message)
-        return
-    }
-    const dayTotal = registrationModel.calculateDayHours()
-    const th = document.getElementById("th")
-    const tm = document.getElementById("tm")
-
-    th.innerText = Math.floor(dayTotal)
-    tm.innerText = Math.round(dayTotal * 100 - (Math.floor(dayTotal) * 100))
-}
-
 const addActivity = () => {
     const start = document.getElementById("emt").value
     const end = document.getElementById("elt").value
@@ -126,8 +79,8 @@ const addActivity = () => {
 
     if (time.valid(trimmedStart) && time.valid(trimmedEnd)) {
         registrationModel.addActivity(trimmedStart, trimmedEnd)
-        document.getElementById("emt").value = time.format('0000')
-        document.getElementById("elt").value = time.format('0000')
+        //document.getElementById("emt").value = time.format('0000')
+        //document.getElementById("elt").value = time.format('0000')
     }
 }
 
@@ -172,10 +125,11 @@ const renderWeekdaySections = () => {
 
 const renderWeekTotal = () => {
     const weekTotalTemplate = document.getElementById("weektotal-template").content.cloneNode(true)
-    const weekTotalSection = document.querySelector("#weekday-sections")
+    const weekTotalSection = document.querySelector("#week-total")
     const weekTotalTableBody = weekTotalTemplate.querySelector(".weektotaltable > tbody")
     const weekTotalTableFoot = weekTotalTemplate.querySelector(".weektotaltable > tfoot")
 
+    weekTotalSection.innerHTML = ""
     let totalWeekHours = 0
     for (let i = 1; i <= 5; i++) {
         const entry = registrationModel.getWeekEntries().get(`${i}`)
@@ -202,7 +156,6 @@ const renderWeekTotal = () => {
 }
 
 const renderActivityChange = () => {
-    renderDayTotal()
     renderWeekdaySections()
     renderWeekTotal()
 }
@@ -216,7 +169,7 @@ const init = () => {
         tf.addEventListener("blur", timeEntryBlur)
     })
 
-    document.getElementById("elb").selectOption(0)
+    document.getElementById("ewd").value = 1
     document.getElementById("ewd").addEventListener("change", (changeEvent) => {
         registrationModel.setWeekDay(changeEvent.target.value)
     })
@@ -232,6 +185,7 @@ const init = () => {
     //registrationModel.addEventListener("weekdaychange", renderAll)
     //registrationModel.addEventListener("daydurationchange", renderActivityTable)
     registrationModel.addEventListener("activitychange", renderActivityChange)
-
+    renderWeekdaySections()
+    renderWeekTotal()
 }
 document.addEventListener("DOMContentLoaded", init, false)

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Tracking Layout</title>
+    <style>
+        /* Define a consistent modern aesthetic */
+        :root {
+            --bg-color: #F8F7FF; /* A very light, clean purple-white */
+            --card-bg: #FFFFFF;
+            --primary-purple: #928BFF; /* Primary purple color for accents */
+            --shadow: 0 0 20px rgba(100, 100, 100, 0.15); /* Valid centered box-shadow */
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --text-dark: #333;
+            --border-radius: 12px;
+            --padding-md: 20px;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color); /* Correct light purple-tint background */
+            color: var(--text-dark);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 30px;
+        }
+
+        /* Container for the overall layout */
+        .page-container {
+            max-width: 1200px;
+            display: grid;
+            grid-template-areas:
+                "main"
+                "total";
+            gap: 30px;
+        }
+
+        /* Styling for the floating cards */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow); /* The centered, floating shadow */
+            padding: var(--padding-md);
+        }
+
+        /* Main area containing inputs and daily details */
+        .main-content {
+            grid-area: main;
+            display: grid;
+            grid-template-columns: 2fr 3fr; /* Flexible columns for form and grid */
+            gap: 30px;
+        }
+
+        /* Form styling */
+        .input-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .input-form label {
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .input-form input[type="text"], .input-form select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 1em;
+            box-sizing: border-box; /* Crucial for width: 100% */
+        }
+
+        .input-form .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .input-form button.add-activity-btn {
+            background-color: var(--primary-purple);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1em;
+            width: fit-content;
+            transition: background-color 0.2s;
+        }
+
+        .input-form button.add-activity-btn:hover {
+            background-color: #7A72E0; /* Darker purple on hover */
+        }
+
+        /* Styling for the daily details area */
+        .daily-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Two daily detail cards per row */
+            gap: 20px;
+        }
+
+        .daily-detail-card h3 {
+            margin-top: 0;
+            font-size: 1.1em;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+
+        .daily-info-grid {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 5px 15px;
+            font-size: 0.9em;
+        }
+
+        .daily-info-grid span:nth-child(even) {
+            color: #666;
+        }
+
+        /* Styling for the Weekly Total card */
+        .weekly-total-container {
+            grid-area: total;
+            width: fit-content;
+            justify-self: end;
+        }
+
+        .weekly-total-card h2 {
+            margin-top: 0;
+            font-size: 1.4em;
+            color: var(--primary-purple);
+        }
+
+        .weekly-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+        }
+
+        .weekly-table th, .weekly-table td {
+            text-align: left;
+            padding: 8px 12px;
+        }
+
+        .weekly-table th {
+            border-bottom: 2px solid #eee;
+            color: #888;
+        }
+
+        .weekly-table td {
+            border-bottom: 1px solid #eee;
+        }
+
+        .weekly-table tr:last-child td {
+            font-weight: bold;
+            border-bottom: none;
+            color: var(--primary-purple);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="page-container">
+        <div class="main-content">
+            <!-- Input Form Card -->
+            <div class="card input-form-container">
+                <h3>Add New Activity</h3>
+                <div class="input-form">
+                    <label for="day">Day</label>
+                    <select id="day">
+                        <option>Friday</option>
+                        <!-- Other days would go here -->
+                    </select>
+
+                    <label for="start">Start time</label>
+                    <input type="text" id="start" value="08:00">
+
+                    <label for="end">End time</label>
+                    <input type="text" id="end" value="16:00">
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="exclude" checked>
+                        <label for="exclude">Exclude lunch</label>
+                    </div>
+
+                    <button class="add-activity-btn">Add activity</button>
+                </div>
+            </div>
+
+            <!-- Daily Details Grid Area -->
+            <div class="daily-details">
+                <!-- Individual Daily Detail Card (example: Monday) -->
+                <div class="card daily-detail-card">
+                    <h3>Monday</h3>
+                    <div class="daily-info-grid">
+                        <span>Start</span> <span>08:00</span>
+                        <span>End</span> <span>16:00</span>
+                        <span>Duration</span> <span>7.5</span>
+                        <span>Total</span> <span>7.5</span>
+                    </div>
+                </div>
+
+                <!--Individual Daily Detail Card (example: Tuesday) -->
+                <div class="card daily-detail-card">
+                    <h3>Tuesday</h3>
+                    <div class="daily-info-grid">
+                        <span>Start</span> <span>08:00</span>
+                        <span>End</span> <span>16:00</span>
+                        <span>Duration</span> <span>7.5</span>
+                        <span>Total</span> <span>7.5</span>
+                    </div>
+                </div>
+                 <!-- Other daily detail cards would go here -->
+            </div>
+        </div>
+
+        <!-- Weekly Total Card -->
+        <div class="weekly-total-container">
+            <div class="card weekly-total-card">
+                <h2>Weekly Total</h2>
+                <table class="weekly-table">
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Hours</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Monday</td><td>7.5</td></tr>
+                        <tr><td>Tuesday</td><td>7.5</td></tr>
+                        <tr><td>Wednesday</td><td>7.5</td></tr>
+                        <tr><td>Thursday</td><td>7.5</td></tr>
+                        <tr><td>Friday</td><td>7.5</td></tr>
+                        <tr><td>Total</td><td>37.5</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

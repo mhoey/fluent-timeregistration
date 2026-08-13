@@ -10,22 +10,90 @@
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;800&display=swap" rel="stylesheet">
     <script type="module" src="./main.js"></script>
     <style>
+        :root {
+            --bg-color: #F8F7FF;
+            /* A very light, clean purple-white */
+            --card-bg: #FFFFFF;
+            --primary-purple: #928BFF;
+            /* Primary purple color for accents */
+            --shadow: 0 0 20px rgba(100, 100, 100, 0.15);
+            /* Valid centered box-shadow */
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --text-dark: #333;
+            --border-radius: 12px;
+            --padding-md: 20px;
+        }
+
         body {
-            background-color: rgb(255, 255, 255);
-            font-family: var(--fontFamilyBase);
-            font-size: var(--fontSizeBase300);
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            /* Correct light purple-tint background */
+            color: var(--text-dark);
+            padding:32px;
+        }
+
+        h2 {
+            margin: 0px;
         }
 
         .inputsection {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            /* The centered, floating shadow */
+            padding: var(--padding-md);
             display: flex;
             flex-direction: column;
-            border: solid 2px rgb(188, 186, 196);
-            border-radius: 4px;
             padding: 16px;
+            gap: 8px;
+            max-width: 248px;
         }
 
-        #ds {
-            border: solid 2px rgb(188, 186, 196);
+        /* Form styling */
+        .input-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .input-form label {
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .input-form input[type="text"],
+        .input-form select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 1em;
+            box-sizing: border-box;
+            /* Crucial for width: 100% */
+        }
+
+        .input-form .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .input-form button.add-activity-btn {
+            background-color: var(--primary-purple);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1em;
+            width: fit-content;
+            transition: background-color 0.2s;
+        }
+
+        .input-form button.add-activity-btn:hover {
+            background-color: #7A72E0;
+            /* Darker purple on hover */
         }
 
         #ae {
@@ -75,23 +143,39 @@
             letter-spacing: -0.1em;
         }
 
-        #ths {
-            margin-top: 16px;
-            background-color: rgb(188, 186, 196);
-            text-align: center;
-            border-radius: 16px;
+        #weekday-sections {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-top: 32px;
         }
 
         .daycard {
-            border: solid 2px rgb(188, 186, 196);
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            /* The centered, floating shadow */
+            padding: var(--padding-md);
             margin-bottom: 20px;
             padding: 16px;
             border-radius: 4px;
+            border-radius: 4px;
+            width: 144px;
+            height: 221px;
+        }
+        
+        #topsection {
+            display: flex;
+            gap:32px;
         }
 
         .weekday {
             font-size: 24px;
             font-weight: bold;
+        }
+
+        .activitytable {
+            width: 100%;
         }
 
         .weektotalduration {
@@ -101,41 +185,40 @@
 </head>
 
 <body>
-    <section id="ds" class="inputsection">
-        <fluent-dropdown id="ewd" slot="input" type="select" title="Weekday">
-            <fluent-listbox id="elb">
-                <fluent-option value="1">Monday</fluent-option>
-                <fluent-option value="2">Tuesday</fluent-option>
-                <fluent-option value="3">Wednesday</fluent-option>
-                <fluent-option value="4">Thursday</fluent-option>
-                <fluent-option value="5">Friday</fluent-option>
-                <fluent-option value="6">Saturday</fluent-option>
-                <fluent-option value="7">Sunday</fluent-option>
-            </fluent-listbox>
-        </fluent-dropdown>
-        <fluent-text-input id="emt" data-format="hhmm" placeholder="00:00">Start time</fluent-text-input>
-        <fluent-text-input id="elt" data-format="hhmm" placeholder="00:00">End time</fluent-text-input>
-        <section style="padding:8px">
-            <fluent-checkbox id="exlt" checked="true"></fluent-checkbox><span style="padding-left:4px">Exclude
-                lunch</span>
-        </section>
-        <section>
-            <fluent-button id="aact" appearance="primary">Add activity</fluent-button>
-        </section>
-        <section id="ths">
-            <div>
-                <span id="th">0</span>
-                <span id="ts">.</span>
-                <span id="tm">00</span>
+    <section id="topsection">
+        <section id="ds" class="inputsection">
+            <div class="input-form">
+                <label for="ewd">Weekday</label>
+                <select id="ewd">
+                    <option value="1">Monday</option>
+                    <option value="2">Tuesday</option>
+                    <option value="3">Wednesday</option>
+                    <option value="4">Thursday</option>
+                    <option value="5">Friday</option>
+                </select>
+                <!-- <fluent-text-input id="emt" data-format="hhmm" placeholder="00:00">Start time</fluent-text-input>
+        <fluent-text-input id="elt" data-format="hhmm" placeholder="00:00">End time</fluent-text-input> -->
+                <label for="emt">Start time</label>
+                <input type="text" id="emt" data-format="hhmm" placeholder="00:00" />
+                <label for="elt">End time</label>
+                <input type="text" id="elt" data-format="hhmm" placeholder="00:00" />
+                <section class="checkbox-group">
+                    <input type="checkbox" id="exlt" checked>
+                    <label for="exlt">Exclude lunch</label>
+                </section>
+
+                <button id="aact" class="add-activity-btn">Add activity</button>
             </div>
         </section>
-        <section id="tdh"></section>
-        <section id="tdat"></section>
+        <section id="week-total" class="inputsection">
+
+        </section>
     </section>
 
     <section id="weekday-sections">
         <!-- Weekday sections will be dynamically generated here -->
     </section>
+
 
     <template id="weekday-template">
         <section class="daycard">
@@ -164,10 +247,9 @@
             <h2 class="weekday"></h2>
             <div>No entries</div>
         </section>
-    </template>    
+    </template>
 
     <template id="weektotal-template">
-        <section class="daycard">
         <h2 class="weektotal">Weekly Total</h2>
         <table class="weektotaltable">
             <thead>
@@ -181,7 +263,6 @@
             <tfoot>
             </tfoot>
         </table>
-        </section>
     </template>
 </body>
 
