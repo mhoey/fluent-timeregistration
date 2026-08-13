@@ -16,9 +16,9 @@ const timeEntryFocus = (focusEvent) => {
 const timeEntryBlur = (blurEvent) => {
     let elementValue = blurEvent.target.value
     if (!time.valid(elementValue))
-        blurEvent.srcElement.control.style.color = "red"
+        blurEvent.srcElement.style.color = "red"
     else
-        blurEvent.srcElement.control.style.color = "black"
+        blurEvent.srcElement.style.color = "black"
     elementValue = time.format(elementValue)
     blurEvent.target.value = elementValue
 }
@@ -162,7 +162,7 @@ const renderActivityChange = () => {
 
 const init = () => {
     // Assign event listeners
-    let queryResult = document.querySelectorAll("fluent-text-input[data-format='hhmm']")
+    let queryResult = document.querySelectorAll("input[type='text']")
     let timeFields = Array.from(queryResult)
     timeFields.map(tf => {
         tf.addEventListener("focus", timeEntryFocus)
