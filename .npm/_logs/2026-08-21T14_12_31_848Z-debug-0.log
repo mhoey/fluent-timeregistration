@@ -1,0 +1,382 @@
+0 verbose cli /usr/bin/node /usr/bin/npm
+1 info using npm@11.17.0
+2 info using node@v24.19.0
+3 silly config load:file:/usr/lib/node_modules/npm/npmrc
+4 silly config load:file:/home/app/.npmrc
+5 silly config load:file:/usr/etc/npmrc
+6 verbose title npm install
+7 verbose argv "install"
+8 verbose logfile logs-max:10 dir:/home/app/.npm/_logs/2026-08-21T14_12_31_848Z-
+9 verbose logfile /home/app/.npm/_logs/2026-08-21T14_12_31_848Z-debug-0.log
+10 silly logfile done cleaning log files
+11 silly packumentCache heap:4496293888 maxSize:1124073472 maxEntrySize:562036736
+12 silly idealTree buildDeps
+13 silly reify moves {}
+14 silly audit bulk request {
+14 silly audit   '@esbuild/aix-ppc64': [ '0.25.2' ],
+14 silly audit   '@esbuild/android-arm': [ '0.25.2' ],
+14 silly audit   '@esbuild/android-arm64': [ '0.25.2' ],
+14 silly audit   '@esbuild/android-x64': [ '0.25.2' ],
+14 silly audit   '@esbuild/darwin-arm64': [ '0.25.2' ],
+14 silly audit   '@esbuild/darwin-x64': [ '0.25.2' ],
+14 silly audit   '@esbuild/freebsd-arm64': [ '0.25.2' ],
+14 silly audit   '@esbuild/freebsd-x64': [ '0.25.2' ],
+14 silly audit   '@esbuild/linux-arm': [ '0.25.2' ],
+14 silly audit   '@esbuild/linux-arm64': [ '0.25.2' ],
+14 silly audit   '@esbuild/linux-ia32': [ '0.25.2' ],
+14 silly audit   '@esbuild/linux-loong64': [ '0.25.2' ],
+14 silly audit   '@esbuild/linux-mips64el': [ '0.25.2' ],
+14 silly audit   '@esbuild/linux-ppc64': [ '0.25.2' ],
+14 silly audit   '@esbuild/linux-riscv64': [ '0.25.2' ],
+14 silly audit   '@esbuild/linux-s390x': [ '0.25.2' ],
+14 silly audit   '@esbuild/linux-x64': [ '0.25.2' ],
+14 silly audit   '@esbuild/netbsd-arm64': [ '0.25.2' ],
+14 silly audit   '@esbuild/netbsd-x64': [ '0.25.2' ],
+14 silly audit   '@esbuild/openbsd-arm64': [ '0.25.2' ],
+14 silly audit   '@esbuild/openbsd-x64': [ '0.25.2' ],
+14 silly audit   '@esbuild/sunos-x64': [ '0.25.2' ],
+14 silly audit   '@esbuild/win32-arm64': [ '0.25.2' ],
+14 silly audit   '@esbuild/win32-ia32': [ '0.25.2' ],
+14 silly audit   '@esbuild/win32-x64': [ '0.25.2' ],
+14 silly audit   '@fluentui/tokens': [ '1.0.0-alpha.21' ],
+14 silly audit   '@fluentui/web-components': [ '3.0.0-beta.93' ],
+14 silly audit   '@microsoft/fast-element': [ '2.2.1' ],
+14 silly audit   '@microsoft/fast-web-utilities': [ '6.0.0' ],
+14 silly audit   '@rollup/rollup-android-arm-eabi': [ '4.40.0' ],
+14 silly audit   '@rollup/rollup-android-arm64': [ '4.40.0' ],
+14 silly audit   '@rollup/rollup-darwin-arm64': [ '4.40.0' ],
+14 silly audit   '@rollup/rollup-darwin-x64': [ '4.40.0' ],
+14 silly audit   '@rollup/rollup-freebsd-arm64': [ '4.40.0' ],
+14 silly audit   '@rollup/rollup-freebsd-x64': [ '4.40.0' ],
+14 silly audit   '@rollup/rollup-linux-arm-gnueabihf': [ '4.40.0' ],
+14 silly audit   '@rollup/rollup-linux-arm-musleabihf': [ '4.40.0' ],
+14 silly audit   '@rollup/rollup-linux-arm64-gnu': [ '4.40.0' ],
+14 silly audit   '@rollup/rollup-linux-arm64-musl': [ '4.40.0' ],
+14 silly audit   '@rollup/rollup-linux-loongarch64-gnu': [ '4.40.0' ],
+14 silly audit   '@rollup/rollup-linux-powerpc64le-gnu': [ '4.40.0' ],
+14 silly audit   '@rollup/rollup-linux-riscv64-gnu': [ '4.40.0' ],
+14 silly audit   '@rollup/rollup-linux-riscv64-musl': [ '4.40.0' ],
+14 silly audit   '@rollup/rollup-linux-s390x-gnu': [ '4.40.0' ],
+14 silly audit   '@rollup/rollup-linux-x64-gnu': [ '4.40.0' ],
+14 silly audit   '@rollup/rollup-linux-x64-musl': [ '4.40.0' ],
+14 silly audit   '@rollup/rollup-win32-arm64-msvc': [ '4.40.0' ],
+14 silly audit   '@rollup/rollup-win32-ia32-msvc': [ '4.40.0' ],
+14 silly audit   '@rollup/rollup-win32-x64-msvc': [ '4.40.0' ],
+14 silly audit   '@swc/helpers': [ '0.5.17' ],
+14 silly audit   '@types/estree': [ '1.0.7' ],
+14 silly audit   esbuild: [ '0.25.2' ],
+14 silly audit   'exenv-es6': [ '1.1.1' ],
+14 silly audit   fdir: [ '6.4.4' ],
+14 silly audit   fsevents: [ '2.3.3' ],
+14 silly audit   nanoid: [ '3.3.11' ],
+14 silly audit   picocolors: [ '1.1.1' ],
+14 silly audit   picomatch: [ '4.0.2' ],
+14 silly audit   postcss: [ '8.5.3' ],
+14 silly audit   rollup: [ '4.40.0' ],
+14 silly audit   'source-map-js': [ '1.2.1' ],
+14 silly audit   tabbable: [ '6.2.0' ],
+14 silly audit   tinyglobby: [ '0.2.13' ],
+14 silly audit   tslib: [ '2.8.1' ],
+14 silly audit   vite: [ '6.3.2' ],
+14 silly audit   yarn: [ '1.22.22' ]
+14 silly audit }
+15 http cache tslib@https://registry.npmjs.org/tslib/-/tslib-2.8.1.tgz 1ms (cache hit)
+16 http cache tinyglobby@https://registry.npmjs.org/tinyglobby/-/tinyglobby-0.2.13.tgz 0ms (cache hit)
+17 http cache vite@https://registry.npmjs.org/vite/-/vite-6.3.2.tgz 0ms (cache hit)
+18 http cache tabbable@https://registry.npmjs.org/tabbable/-/tabbable-6.2.0.tgz 0ms (cache hit)
+19 http cache rollup@https://registry.npmjs.org/rollup/-/rollup-4.40.0.tgz 0ms (cache hit)
+20 http cache source-map-js@https://registry.npmjs.org/source-map-js/-/source-map-js-1.2.1.tgz 0ms (cache hit)
+21 http cache postcss@https://registry.npmjs.org/postcss/-/postcss-8.5.3.tgz 0ms (cache hit)
+22 http cache picomatch@https://registry.npmjs.org/picomatch/-/picomatch-4.0.2.tgz 0ms (cache hit)
+23 http cache picocolors@https://registry.npmjs.org/picocolors/-/picocolors-1.1.1.tgz 0ms (cache hit)
+24 http cache nanoid@https://registry.npmjs.org/nanoid/-/nanoid-3.3.11.tgz 0ms (cache hit)
+25 http cache fdir@https://registry.npmjs.org/fdir/-/fdir-6.4.4.tgz 0ms (cache hit)
+26 http cache exenv-es6@https://registry.npmjs.org/exenv-es6/-/exenv-es6-1.1.1.tgz 0ms (cache hit)
+27 http cache esbuild@https://registry.npmjs.org/esbuild/-/esbuild-0.25.2.tgz 0ms (cache hit)
+28 http cache @types/estree@https://registry.npmjs.org/@types/estree/-/estree-1.0.7.tgz 0ms (cache hit)
+29 http cache @swc/helpers@https://registry.npmjs.org/@swc/helpers/-/helpers-0.5.17.tgz 0ms (cache hit)
+30 http cache @rollup/rollup-linux-x64-gnu@https://registry.npmjs.org/@rollup/rollup-linux-x64-gnu/-/rollup-linux-x64-gnu-4.40.0.tgz 0ms (cache hit)
+31 http cache @microsoft/fast-web-utilities@https://registry.npmjs.org/@microsoft/fast-web-utilities/-/fast-web-utilities-6.0.0.tgz 0ms (cache hit)
+32 http cache @microsoft/fast-element@https://registry.npmjs.org/@microsoft/fast-element/-/fast-element-2.2.1.tgz 0ms (cache hit)
+33 http cache @fluentui/web-components@https://registry.npmjs.org/@fluentui/web-components/-/web-components-3.0.0-beta.93.tgz 0ms (cache hit)
+34 http cache @rollup/rollup-linux-x64-musl@https://registry.npmjs.org/@rollup/rollup-linux-x64-musl/-/rollup-linux-x64-musl-4.40.0.tgz 0ms (cache hit)
+35 http cache yarn@https://registry.npmjs.org/yarn/-/yarn-1.22.22.tgz 0ms (cache hit)
+36 http cache @esbuild/linux-x64@https://registry.npmjs.org/@esbuild/linux-x64/-/linux-x64-0.25.2.tgz 0ms (cache hit)
+37 silly tarball no local data for tslib@https://registry.npmjs.org/tslib/-/tslib-2.8.1.tgz. Extracting by manifest.
+38 silly tarball no local data for tinyglobby@https://registry.npmjs.org/tinyglobby/-/tinyglobby-0.2.13.tgz. Extracting by manifest.
+39 silly tarball no local data for vite@https://registry.npmjs.org/vite/-/vite-6.3.2.tgz. Extracting by manifest.
+40 silly tarball no local data for tabbable@https://registry.npmjs.org/tabbable/-/tabbable-6.2.0.tgz. Extracting by manifest.
+41 silly tarball no local data for rollup@https://registry.npmjs.org/rollup/-/rollup-4.40.0.tgz. Extracting by manifest.
+42 silly tarball no local data for source-map-js@https://registry.npmjs.org/source-map-js/-/source-map-js-1.2.1.tgz. Extracting by manifest.
+43 silly tarball no local data for postcss@https://registry.npmjs.org/postcss/-/postcss-8.5.3.tgz. Extracting by manifest.
+44 silly tarball no local data for picomatch@https://registry.npmjs.org/picomatch/-/picomatch-4.0.2.tgz. Extracting by manifest.
+45 silly tarball no local data for picocolors@https://registry.npmjs.org/picocolors/-/picocolors-1.1.1.tgz. Extracting by manifest.
+46 silly tarball no local data for nanoid@https://registry.npmjs.org/nanoid/-/nanoid-3.3.11.tgz. Extracting by manifest.
+47 silly tarball no local data for fdir@https://registry.npmjs.org/fdir/-/fdir-6.4.4.tgz. Extracting by manifest.
+48 silly tarball no local data for exenv-es6@https://registry.npmjs.org/exenv-es6/-/exenv-es6-1.1.1.tgz. Extracting by manifest.
+49 silly tarball no local data for esbuild@https://registry.npmjs.org/esbuild/-/esbuild-0.25.2.tgz. Extracting by manifest.
+50 silly tarball no local data for @types/estree@https://registry.npmjs.org/@types/estree/-/estree-1.0.7.tgz. Extracting by manifest.
+51 silly tarball no local data for @swc/helpers@https://registry.npmjs.org/@swc/helpers/-/helpers-0.5.17.tgz. Extracting by manifest.
+52 silly tarball no local data for @rollup/rollup-linux-x64-gnu@https://registry.npmjs.org/@rollup/rollup-linux-x64-gnu/-/rollup-linux-x64-gnu-4.40.0.tgz. Extracting by manifest.
+53 silly tarball no local data for @microsoft/fast-web-utilities@https://registry.npmjs.org/@microsoft/fast-web-utilities/-/fast-web-utilities-6.0.0.tgz. Extracting by manifest.
+54 silly tarball no local data for @microsoft/fast-element@https://registry.npmjs.org/@microsoft/fast-element/-/fast-element-2.2.1.tgz. Extracting by manifest.
+55 silly tarball no local data for @fluentui/web-components@https://registry.npmjs.org/@fluentui/web-components/-/web-components-3.0.0-beta.93.tgz. Extracting by manifest.
+56 silly tarball no local data for @rollup/rollup-linux-x64-musl@https://registry.npmjs.org/@rollup/rollup-linux-x64-musl/-/rollup-linux-x64-musl-4.40.0.tgz. Extracting by manifest.
+57 silly tarball no local data for yarn@https://registry.npmjs.org/yarn/-/yarn-1.22.22.tgz. Extracting by manifest.
+58 http cache @fluentui/tokens@https://registry.npmjs.org/@fluentui/tokens/-/tokens-1.0.0-alpha.21.tgz 0ms (cache hit)
+59 silly tarball no local data for @esbuild/linux-x64@https://registry.npmjs.org/@esbuild/linux-x64/-/linux-x64-0.25.2.tgz. Extracting by manifest.
+60 silly tarball no local data for @fluentui/tokens@https://registry.npmjs.org/@fluentui/tokens/-/tokens-1.0.0-alpha.21.tgz. Extracting by manifest.
+61 http fetch GET 200 https://registry.npmjs.org/npm 154ms
+62 http fetch GET 200 https://registry.npmjs.org/picocolors/-/picocolors-1.1.1.tgz 187ms (cache miss)
+63 http fetch GET 200 https://registry.npmjs.org/tinyglobby/-/tinyglobby-0.2.13.tgz 193ms (cache miss)
+64 http fetch GET 200 https://registry.npmjs.org/exenv-es6/-/exenv-es6-1.1.1.tgz 206ms (cache miss)
+65 http fetch GET 200 https://registry.npmjs.org/tslib/-/tslib-2.8.1.tgz 225ms (cache miss)
+66 http fetch POST 200 https://registry.npmjs.org/-/npm/v1/security/advisories/bulk 248ms
+67 silly audit report {
+67 silly audit report   nanoid: [
+67 silly audit report     {
+67 silly audit report       id: 1138811,
+67 silly audit report       url: 'https://github.com/advisories/GHSA-28wg-ghj8-5hjv',
+67 silly audit report       title: 'nanoid: non-secure generators can loop indefinitely with negative size',
+67 silly audit report       severity: 'high',
+67 silly audit report       vulnerable_versions: '<3.3.16',
+67 silly audit report       cwe: [Array],
+67 silly audit report       cvss: [Object]
+67 silly audit report     },
+67 silly audit report     {
+67 silly audit report       id: 1139427,
+67 silly audit report       url: 'https://github.com/advisories/GHSA-2v37-7h3g-55p8',
+67 silly audit report       title: 'nanoid: custom generators can loop indefinitely when size is zero',
+67 silly audit report       severity: 'high',
+67 silly audit report       vulnerable_versions: '<3.3.18',
+67 silly audit report       cwe: [Array],
+67 silly audit report       cvss: [Object]
+67 silly audit report     }
+67 silly audit report   ],
+67 silly audit report   picomatch: [
+67 silly audit report     {
+67 silly audit report       id: 1115551,
+67 silly audit report       url: 'https://github.com/advisories/GHSA-3v7f-55p6-f55p',
+67 silly audit report       title: 'Picomatch: Method Injection in POSIX Character Classes causes incorrect Glob Matching',
+67 silly audit report       severity: 'moderate',
+67 silly audit report       vulnerable_versions: '>=4.0.0 <4.0.4',
+67 silly audit report       cwe: [Array],
+67 silly audit report       cvss: [Object]
+67 silly audit report     },
+67 silly audit report     {
+67 silly audit report       id: 1115554,
+67 silly audit report       url: 'https://github.com/advisories/GHSA-c2c7-rcm5-vvqj',
+67 silly audit report       title: 'Picomatch has a ReDoS vulnerability via extglob quantifiers',
+67 silly audit report       severity: 'high',
+67 silly audit report       vulnerable_versions: '>=4.0.0 <4.0.4',
+67 silly audit report       cwe: [Array],
+67 silly audit report       cvss: [Object]
+67 silly audit report     }
+67 silly audit report   ],
+67 silly audit report   postcss: [
+67 silly audit report     {
+67 silly audit report       id: 1130709,
+67 silly audit report       url: 'https://github.com/advisories/GHSA-fxqj-rqcc-2cmp',
+67 silly audit report       title: 'PostCSS: incomplete fix of GHSA-6g55-p6wh-862q — attacker-controlled sourceMappingURL reads arbitrary .map files when `from` is unset',
+67 silly audit report       severity: 'moderate',
+67 silly audit report       vulnerable_versions: '<=8.5.22',
+67 silly audit report       cwe: [Array],
+67 silly audit report       cvss: [Object]
+67 silly audit report     },
+67 silly audit report     {
+67 silly audit report       id: 1117015,
+67 silly audit report       url: 'https://github.com/advisories/GHSA-qx2v-qp2m-jg93',
+67 silly audit report       title: 'PostCSS has XSS via Unescaped </style> in its CSS Stringify Output',
+67 silly audit report       severity: 'moderate',
+67 silly audit report       vulnerable_versions: '<8.5.10',
+67 silly audit report       cwe: [Array],
+67 silly audit report       cvss: [Object]
+67 silly audit report     },
+67 silly audit report     {
+67 silly audit report       id: 1124252,
+67 silly audit report       url: 'https://github.com/advisories/GHSA-6g55-p6wh-862q',
+67 silly audit report       title: 'PostCSS: Arbitrary file read and information disclosure via attacker-controlled sourceMappingURL in CSS comments',
+67 silly audit report       severity: 'high',
+67 silly audit report       vulnerable_versions: '<=8.5.11',
+67 silly audit report       cwe: [Array],
+67 silly audit report       cvss: [Object]
+67 silly audit report     },
+67 silly audit report     {
+67 silly audit report       id: 1139510,
+67 silly audit report       url: 'https://github.com/advisories/GHSA-r28c-9q8g-f849',
+67 silly audit report       title: 'PostCSS: Path Traversal in Previous Source Map Auto-Loading (sourceMappingURL) leads to Arbitrary .map File Disclosure',
+67 silly audit report       severity: 'high',
+67 silly audit report       vulnerable_versions: '<=8.5.17',
+67 silly audit report       cwe: [Array],
+67 silly audit report       cvss: [Object]
+67 silly audit report     }
+67 silly audit report   ],
+67 silly audit report   rollup: [
+67 silly audit report     {
+67 silly audit report       id: 1113515,
+67 silly audit report       url: 'https://github.com/advisories/GHSA-mw96-cpmx-2vgc',
+67 silly audit report       title: 'Rollup 4 has Arbitrary File Write via Path Traversal',
+67 silly audit report       severity: 'high',
+67 silly audit report       vulnerable_versions: '>=4.0.0 <4.59.0',
+67 silly audit report       cwe: [Array],
+67 silly audit report       cvss: [Object]
+67 silly audit report     }
+67 silly audit report   ],
+67 silly audit report   vite: [
+67 silly audit report     {
+67 silly audit report       id: 1104176,
+67 silly audit report       url: 'https://github.com/advisories/GHSA-859w-5945-r5v3',
+67 silly audit report       title: "Vite's server.fs.deny bypassed with /. for files under project root",
+67 silly audit report       severity: 'moderate',
+67 silly audit report       vulnerable_versions: '>=6.3.0 <=6.3.3',
+67 silly audit report       cwe: [Array],
+67 silly audit report       cvss: [Object]
+67 silly audit report     },
+67 silly audit report     {
+67 silly audit report       id: 1107324,
+67 silly audit report       url: 'https://github.com/advisories/GHSA-g4jq-h2w9-997c',
+67 silly audit report       title: 'Vite middleware may serve files starting with the same name with the public directory',
+67 silly audit report       severity: 'low',
+67 silly audit report       vulnerable_versions: '>=6.0.0 <=6.3.5',
+67 silly audit report       cwe: [Array],
+67 silly audit report       cvss: [Object]
+67 silly audit report     },
+67 silly audit report     {
+67 silly audit report       id: 1107328,
+67 silly audit report       url: 'https://github.com/advisories/GHSA-jqfw-vq24-v9c3',
+67 silly audit report       title: "Vite's `server.fs` settings were not applied to HTML files",
+67 silly audit report       severity: 'low',
+67 silly audit report       vulnerable_versions: '>=6.0.0 <=6.3.5',
+67 silly audit report       cwe: [Array],
+67 silly audit report       cvss: [Object]
+67 silly audit report     },
+67 silly audit report     {
+67 silly audit report       id: 1109135,
+67 silly audit report       url: 'https://github.com/advisories/GHSA-93m4-6634-74q7',
+67 silly audit report       title: 'vite allows server.fs.deny bypass via backslash on Windows',
+67 silly audit report       severity: 'moderate',
+67 silly audit report       vulnerable_versions: '>=6.0.0 <=6.4.0',
+67 silly audit report       cwe: [Array],
+67 silly audit report       cvss: [Object]
+67 silly audit report     },
+67 silly audit report     {
+67 silly audit report       id: 1120784,
+67 silly audit report       url: 'https://github.com/advisories/GHSA-v6wh-96g9-6wx3',
+67 silly audit report       title: 'launch-editor: NTLMv2 hash disclosure via UNC path handling on Windows',
+67 silly audit report       severity: 'moderate',
+67 silly audit report       vulnerable_versions: '<=6.4.2',
+67 silly audit report       cwe: [Array],
+67 silly audit report       cvss: [Object]
+67 silly audit report     },
+67 silly audit report     {
+67 silly audit report       id: 1116229,
+67 silly audit report       url: 'https://github.com/advisories/GHSA-4w7w-66w2-5vf9',
+67 silly audit report       title: 'Vite Vulnerable to Path Traversal in Optimized Deps `.map` Handling',
+67 silly audit report       severity: 'moderate',
+67 silly audit report       vulnerable_versions: '<=6.4.1',
+67 silly audit report       cwe: [Array],
+67 silly audit report       cvss: [Object]
+67 silly audit report     },
+67 silly audit report     {
+67 silly audit report       id: 1116234,
+67 silly audit report       url: 'https://github.com/advisories/GHSA-p9ff-h696-f583',
+67 silly audit report       title: 'Vite Vulnerable to Arbitrary File Read via Vite Dev Server WebSocket',
+67 silly audit report       severity: 'high',
+67 silly audit report       vulnerable_versions: '>=6.0.0 <=6.4.1',
+67 silly audit report       cwe: [Array],
+67 silly audit report       cvss: [Object]
+67 silly audit report     },
+67 silly audit report     {
+67 silly audit report       id: 1123525,
+67 silly audit report       url: 'https://github.com/advisories/GHSA-fx2h-pf6j-xcff',
+67 silly audit report       title: 'vite: `server.fs.deny` bypass on Windows alternate paths',
+67 silly audit report       severity: 'high',
+67 silly audit report       vulnerable_versions: '<=6.4.2',
+67 silly audit report       cwe: [Array],
+67 silly audit report       cvss: [Object]
+67 silly audit report     }
+67 silly audit report   ]
+67 silly audit report }
+68 silly packumentCache corgi:https://registry.npmjs.org/nanoid cache-miss
+69 silly packumentCache corgi:https://registry.npmjs.org/picomatch cache-miss
+70 silly packumentCache corgi:https://registry.npmjs.org/postcss cache-miss
+71 silly packumentCache corgi:https://registry.npmjs.org/rollup cache-miss
+72 silly packumentCache corgi:https://registry.npmjs.org/vite cache-miss
+73 http fetch GET 200 https://registry.npmjs.org/esbuild/-/esbuild-0.25.2.tgz 238ms (cache miss)
+74 http fetch GET 200 https://registry.npmjs.org/picomatch/-/picomatch-4.0.2.tgz 248ms (cache miss)
+75 http fetch GET 200 https://registry.npmjs.org/nanoid/-/nanoid-3.3.11.tgz 251ms (cache miss)
+76 http fetch GET 200 https://registry.npmjs.org/@types/estree/-/estree-1.0.7.tgz 275ms (cache miss)
+77 http fetch GET 200 https://registry.npmjs.org/source-map-js/-/source-map-js-1.2.1.tgz 282ms (cache miss)
+78 http fetch GET 200 https://registry.npmjs.org/picomatch 117ms (cache miss)
+79 silly packumentCache corgi:https://registry.npmjs.org/picomatch set size:undefined disposed:false
+80 http fetch GET 200 https://registry.npmjs.org/postcss 174ms (cache miss)
+81 silly packumentCache corgi:https://registry.npmjs.org/postcss set size:undefined disposed:false
+82 http fetch GET 200 https://registry.npmjs.org/tabbable/-/tabbable-6.2.0.tgz 423ms (cache miss)
+83 http fetch GET 200 https://registry.npmjs.org/nanoid 202ms (cache miss)
+84 silly packumentCache corgi:https://registry.npmjs.org/nanoid set size:undefined disposed:false
+85 http fetch GET 200 https://registry.npmjs.org/postcss/-/postcss-8.5.3.tgz 545ms (cache miss)
+86 http fetch GET 200 https://registry.npmjs.org/@microsoft/fast-web-utilities/-/fast-web-utilities-6.0.0.tgz 562ms (cache miss)
+87 http fetch GET 200 https://registry.npmjs.org/fdir/-/fdir-6.4.4.tgz 580ms (cache miss)
+88 http fetch GET 200 https://registry.npmjs.org/vite 387ms (cache miss)
+89 silly packumentCache corgi:https://registry.npmjs.org/vite set size:undefined disposed:false
+90 http fetch GET 200 https://registry.npmjs.org/rollup 477ms (cache miss)
+91 silly packumentCache corgi:https://registry.npmjs.org/rollup set size:undefined disposed:false
+92 http fetch GET 200 https://registry.npmjs.org/@rollup/rollup-linux-x64-gnu/-/rollup-linux-x64-gnu-4.40.0.tgz 773ms (cache miss)
+93 silly packumentCache corgi:https://registry.npmjs.org/fdir cache-miss
+94 silly packumentCache corgi:https://registry.npmjs.org/tinyglobby cache-miss
+95 http fetch GET 200 https://registry.npmjs.org/rollup/-/rollup-4.40.0.tgz 813ms (cache miss)
+96 http fetch GET 200 https://registry.npmjs.org/@rollup/rollup-linux-x64-musl/-/rollup-linux-x64-musl-4.40.0.tgz 812ms (cache miss)
+97 http fetch GET 200 https://registry.npmjs.org/vite/-/vite-6.3.2.tgz 831ms (cache miss)
+98 http fetch GET 200 https://registry.npmjs.org/tinyglobby 45ms (cache miss)
+99 silly packumentCache corgi:https://registry.npmjs.org/tinyglobby set size:undefined disposed:false
+100 http fetch GET 200 https://registry.npmjs.org/fdir 62ms (cache miss)
+101 silly packumentCache corgi:https://registry.npmjs.org/fdir set size:undefined disposed:false
+102 http fetch GET 200 https://registry.npmjs.org/yarn/-/yarn-1.22.22.tgz 926ms (cache miss)
+103 http fetch GET 200 https://registry.npmjs.org/@esbuild/linux-x64/-/linux-x64-0.25.2.tgz 1174ms (cache miss)
+104 http fetch GET 200 https://registry.npmjs.org/@fluentui/tokens/-/tokens-1.0.0-alpha.21.tgz 1170ms (cache miss)
+105 http fetch GET 200 https://registry.npmjs.org/@microsoft/fast-element/-/fast-element-2.2.1.tgz 1250ms (cache miss)
+106 http fetch GET 200 https://registry.npmjs.org/@swc/helpers/-/helpers-0.5.17.tgz 1313ms (cache miss)
+107 http fetch GET 200 https://registry.npmjs.org/@fluentui/web-components/-/web-components-3.0.0-beta.93.tgz 1975ms (cache miss)
+108 info run yarn@1.22.22 preinstall node_modules/yarn :; (node ./preinstall.js > /dev/null 2>&1 || true)
+109 info run yarn@1.22.22 preinstall { code: 0, signal: null }
+110 info run esbuild@0.25.2 postinstall node_modules/esbuild node install.js
+111 info run esbuild@0.25.2 postinstall { code: 0, signal: null }
+112 silly ADD node_modules/yarn
+113 silly ADD node_modules/vite
+114 silly ADD node_modules/tslib
+115 silly ADD node_modules/tinyglobby
+116 silly ADD node_modules/tabbable
+117 silly ADD node_modules/source-map-js
+118 silly ADD node_modules/rollup
+119 silly ADD node_modules/postcss
+120 silly ADD node_modules/picomatch
+121 silly ADD node_modules/picocolors
+122 silly ADD node_modules/nanoid
+123 silly ADD node_modules/fdir
+124 silly ADD node_modules/exenv-es6
+125 silly ADD node_modules/esbuild
+126 silly ADD node_modules/@types/estree
+127 silly ADD node_modules/@swc/helpers
+128 silly ADD node_modules/@rollup/rollup-linux-x64-musl
+129 silly ADD node_modules/@rollup/rollup-linux-x64-gnu
+130 silly ADD node_modules/@microsoft/fast-web-utilities
+131 silly ADD node_modules/@microsoft/fast-element
+132 silly ADD node_modules/@fluentui/web-components
+133 silly ADD node_modules/@fluentui/tokens
+134 silly ADD node_modules/@esbuild/linux-x64
+135 warn allow-scripts 2 packages have install scripts not yet covered by allowScripts:
+135 warn allow-scripts   esbuild@0.25.2 (postinstall: node install.js)
+135 warn allow-scripts   yarn@1.22.22 (preinstall: :; (node ./preinstall.js > /dev/null 2>&1 || true))
+135 warn allow-scripts
+135 warn allow-scripts Run `npm approve-scripts --allow-scripts-pending` to review, or `npm approve-scripts <pkg>` to allow.
+136 verbose cwd /home/app
+137 verbose os Linux 6.18.33.2-microsoft-standard-WSL2
+138 verbose node v24.19.0
+139 verbose npm  v11.17.0
+140 notice
+140 notice New [31mmajor[39m version of npm available! [31m11.17.0[39m -> [34m12.0.2[39m
+140 notice Changelog: [34mhttps://github.com/npm/cli/releases/tag/v12.0.2[39m
+140 notice To update run: [4mnpm install -g npm@12.0.2[24m
+140 notice  { force: true, Symbol(proc-log.meta): true }
+141 verbose exit 0
+142 info ok

@@ -93,32 +93,24 @@ const renderWeekdaySections = () => {
 
     weekdays.forEach((day, index) => {
         const activities = registrationModel.activitiesForDay(`${index + 1}`)
-        if (activities.length != 0) {
-            const template = document.getElementById("weekday-template").content.cloneNode(true)
-            const dayCard = template.querySelector(".daycard")
-            const weekdayHeader = template.querySelector(".weekday")
-            const dayTotal = template.querySelector(".daytotalduration")
-            const activityTableBody = template.querySelector(".activitytable > tbody")
+        const template = document.getElementById("weekday-template").content.cloneNode(true)
+        const dayCard = template.querySelector(".daycard")
+        const weekdayHeader = template.querySelector(".weekday")
+        const dayTotal = template.querySelector(".daytotalduration")
+        const activityTableBody = template.querySelector(".activitytable > tbody")
 
-            weekdayHeader.textContent = day
-            dayTotal.textContent = registrationModel.calculateDayHours(`${index + 1}`)
-            activities.forEach(a => {
-                const row = document.createElement("tr")
-                row.innerHTML = `
-                        <td>${time.format(a.startTime)}</td>
-                        <td>${time.format(a.endTime)}</td>
-                        <td>${time.diff(a.startTime, a.endTime, registrationModel.isLunchBreak(a) ? registrationModel.reduceTime : 0)}</td>
-                    `
-                activityTableBody.appendChild(row)
-            })
-            weekdaySection.appendChild(dayCard)
-        } else {
-            const template = document.getElementById("weekday-template-no-entry").content.cloneNode(true)
-            const dayCard = template.querySelector(".daycard")
-            const weekdayHeader = template.querySelector(".weekday")
-            weekdayHeader.textContent = day
-            weekdaySection.appendChild(dayCard)
-        }
+        weekdayHeader.textContent = day
+        dayTotal.textContent = registrationModel.calculateDayHours(`${index + 1}`)
+        activities.forEach(a => {
+            const row = document.createElement("tr")
+            row.innerHTML = `
+                    <td>${time.format(a.startTime)}</td>
+                    <td>${time.format(a.endTime)}</td>
+                    <td>${time.diff(a.startTime, a.endTime, registrationModel.isLunchBreak(a) ? registrationModel.reduceTime : 0)}</td>
+                `
+            activityTableBody.appendChild(row)
+        })
+        weekdaySection.appendChild(dayCard)
 
     })
 }
@@ -127,7 +119,7 @@ const renderWeekTotal = () => {
     const weekTotalTemplate = document.getElementById("weektotal-template").content.cloneNode(true)
     const weekTotalSection = document.querySelector("#week-total")
     const weekTotalTableBody = weekTotalTemplate.querySelector(".weektotaltable > tbody")
-    const weekTotalTableFoot = weekTotalTemplate.querySelector(".weektotaltable > tfoot")
+    const weekTotalDuration = weekTotalTemplate.querySelector(".weektotalduration")
 
     weekTotalSection.innerHTML = ""
     let totalWeekHours = 0
@@ -145,12 +137,7 @@ const renderWeekTotal = () => {
         }
     }
 
-    const totalRow = document.createElement("tr")
-    totalRow.innerHTML = `
-        <td>Total</td>
-        <td class="weektotalduration">${totalWeekHours}</td>
-    `
-    weekTotalTableFoot.appendChild(totalRow)
+    weekTotalDuration.textContent = totalWeekHours
 
     weekTotalSection.appendChild(weekTotalTemplate)
 }

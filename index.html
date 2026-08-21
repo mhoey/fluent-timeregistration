@@ -19,6 +19,10 @@
             --text-dark: #333;
             --border-radius: 12px;
             --padding-md: 20px;
+            --weekday-card-width: 214px;
+            --weekday-card-height: 253px;
+            --weekday-gap: 16px;
+            --weekday-row-width: calc((5 * var(--weekday-card-width)) + (4 * var(--weekday-gap)));
         }
 
         body {
@@ -27,10 +31,26 @@
             /* Correct light purple-tint background */
             color: var(--text-dark);
             padding:32px;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .time-registration-layout {
+            width: min(var(--weekday-row-width), 100%);
+            margin: 0 auto;
         }
 
         h2 {
             margin: 0px;
+            color: #5A6E42
+        }
+
+        .card-heading,
+        .weektotal,
+        .weekday {
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 1.2;
         }
 
         .inputsection {
@@ -43,7 +63,7 @@
             flex-direction: column;
             padding: 16px;
             gap: 8px;
-            max-width: 248px;
+            box-sizing: border-box;
         }
 
         /* Form styling */
@@ -142,8 +162,9 @@
         #weekday-sections {
             display: flex;
             flex-wrap: wrap;
-            gap: 16px;
+            gap: var(--weekday-gap);
             margin-top: 32px;
+            width: 100%;
         }
 
         .daycard {
@@ -154,66 +175,128 @@
             padding: var(--padding-md);
             margin-bottom: 20px;
             padding: 16px;
-            border-radius: 4px;
-            border-radius: 4px;
-            width: 182px;
-            height: 221px;
+            border-radius: var(--border-radius);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            width: var(--weekday-card-width);
+            height: var(--weekday-card-height);
         }
         
         #topsection {
             display: flex;
-            gap:32px;
+            align-items: stretch;
+            gap: 64px;
+            width: 100%;
         }
 
-        .weekday {
-            font-size: 24px;
-            font-weight: bold;
+        #topsection > .inputsection {
+            flex: 1 1 0;
+            min-width: 0;
         }
 
         .activitytable {
             width: 100%;
         }
 
-        .weektotalduration {
+        .activitytable th {
+            color: darkgray;
+        }
+
+        .activitytable th:last-child,
+        .activitytable td:last-child {
+            text-align: right;
+        }
+
+        .activitytable th:first-child,
+        .activitytable td:first-child {
+            text-align: left;
+        }
+
+
+        .daytotal {
+            display: flex;
+            justify-content: space-between;
+            margin-top: auto;
+        }
+
+        .weektotal-total {
+            display: flex;
+            justify-content: space-between;
+            margin-top: auto;
+        }
+
+        .daytotal,
+        .weektotal-total {
+            border-top: 1px solid #ddd;
+            padding-top: 8px;
+        }
+
+        .weektotaltable th {
+            color: darkgray;
+        }
+
+        .weektotaltable th:last-child,
+        .weektotaltable td:last-child {
+            text-align: right;
+        }
+
+        .weektotaltable th:first-child,
+        .weektotaltable td:first-child {
+            text-align: left;
+        }
+
+
+        .weektotalduration,
+        .daytotalduration {
             font-weight: bold;
+        }
+
+        @media (max-width: 560px) {
+            #topsection {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 
 <body>
-    <section id="topsection">
-        <section id="ds" class="inputsection">
-            <div class="input-form">
-                <label for="ewd">Weekday</label>
-                <select id="ewd">
-                    <option value="1">Monday</option>
-                    <option value="2">Tuesday</option>
-                    <option value="3">Wednesday</option>
-                    <option value="4">Thursday</option>
-                    <option value="5">Friday</option>
-                </select>
-                <!-- <fluent-text-input id="emt" data-format="hhmm" placeholder="00:00">Start time</fluent-text-input>
+    <main class="time-registration-layout">
+        <section id="topsection">
+            <section id="ds" class="inputsection">
+                <h2 class="card-heading">Register time</h2>
+                <div class="input-form">
+                    <label for="ewd">Weekday</label>
+                    <select id="ewd">
+                        <option value="1">Monday</option>
+                        <option value="2">Tuesday</option>
+                        <option value="3">Wednesday</option>
+                        <option value="4">Thursday</option>
+                        <option value="5">Friday</option>
+                    </select>
+                    <!-- <fluent-text-input id="emt" data-format="hhmm" placeholder="00:00">Start time</fluent-text-input>
         <fluent-text-input id="elt" data-format="hhmm" placeholder="00:00">End time</fluent-text-input> -->
-                <label for="emt">Start time</label>
-                <input type="text" id="emt" data-format="hhmm" placeholder="00:00" />
-                <label for="elt">End time</label>
-                <input type="text" id="elt" data-format="hhmm" placeholder="00:00" />
-                <section class="checkbox-group">
-                    <input type="checkbox" id="exlt" checked>
-                    <label for="exlt">Exclude lunch</label>
-                </section>
+                    <label for="emt">Start time</label>
+                    <input type="text" id="emt" data-format="hhmm" placeholder="00:00" />
+                    <label for="elt">End time</label>
+                    <input type="text" id="elt" data-format="hhmm" placeholder="00:00" />
+                    <section class="checkbox-group">
+                        <input type="checkbox" id="exlt" checked>
+                        <label for="exlt">Exclude lunch</label>
+                    </section>
 
-                <button id="aact" class="add-activity-btn">Add activity</button>
-            </div>
+                    <button id="aact" class="add-activity-btn">Add activity</button>
+                </div>
+            </section>
+            <section id="week-total" class="inputsection">
+
+            </section>
         </section>
-        <section id="week-total" class="inputsection">
 
+        <section id="weekday-sections">
+            <!-- Weekday sections will be dynamically generated here -->
         </section>
-    </section>
-
-    <section id="weekday-sections">
-        <!-- Weekday sections will be dynamically generated here -->
-    </section>
+    </main>
 
 
     <template id="weekday-template">
@@ -228,20 +311,11 @@
                     </tr>
                 </thead>
                 <tbody></tbody>
-                <tfoot>
-                    <tr>
-                        <td>Total</td>
-                        <td></td>
-                        <td class="daytotalduration"></td>
-                    </tr>
             </table>
-        </section>
-    </template>
-
-    <template id="weekday-template-no-entry">
-        <section class="daycard">
-            <h2 class="weekday"></h2>
-            <div>No entries</div>
+            <div class="daytotal">
+                <span>Total</span>
+                <span class="daytotalduration"></span>
+            </div>
         </section>
     </template>
 
@@ -256,9 +330,11 @@
             </thead>
             <tbody>
             </tbody>
-            <tfoot>
-            </tfoot>
         </table>
+        <div class="weektotal-total">
+            <span>Total</span>
+            <span class="weektotalduration"></span>
+        </div>
     </template>
 </body>
 
