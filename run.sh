@@ -1,1 +1,1 @@
-podman run -it -p 5173:5173 -v /home/mot/Development/fluent-timeregistration:/app --name fluent --replace localhost/fluent:latest
+docker run -it -p 3000:3000 -v /home/mot/poc/fluent-timeregistration:/app --name fluent fluent:latest

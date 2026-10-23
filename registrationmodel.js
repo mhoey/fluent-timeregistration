@@ -101,6 +101,15 @@ const registrationModel = {
         registrationModel.triggerListeners("weekdaychange")
     },
 
+    removeActivity: (weekDay, activityIndex) => {
+        const activities = registrationModel.activitiesForDay(weekDay)
+        if (!Number.isInteger(activityIndex) || activityIndex < 0 || activityIndex >= activities.length) {
+            throw new RangeError("Cannot remove activity: entry not found")
+        }
+        activities.splice(activityIndex, 1)
+        registrationModel.triggerActivityChangeEvent(false)
+    },
+
     addActivity: (startTime, endTime) => {
         const isRangeOverlappingExistingActivities = (startTime, endTime, activities) => {
             for (const activity of activities) {

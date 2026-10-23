@@ -101,13 +101,19 @@ const renderWeekdaySections = () => {
 
         weekdayHeader.textContent = day
         dayTotal.textContent = registrationModel.calculateDayHours(`${index + 1}`)
-        activities.forEach(a => {
-            const row = document.createElement("tr")
-            row.innerHTML = `
-                    <td>${time.format(a.startTime)}</td>
-                    <td>${time.format(a.endTime)}</td>
-                    <td>${time.diff(a.startTime, a.endTime, registrationModel.isLunchBreak(a) ? registrationModel.reduceTime : 0)}</td>
-                `
+        activities.forEach((a, activityIndex) => {
+            const row = document.getElementById("activity-row-template").content.cloneNode(true)
+            const start = time.format(a.startTime)
+            const end = time.format(a.endTime)
+            row.querySelector(".activity-start").textContent = start
+            row.querySelector(".activity-end").textContent = end
+            row.querySelector(".activity-duration").textContent = time.diff(
+                a.startTime, a.endTime, registrationModel.isLunchBreak(a) ? registrationModel.reduceTime : 0)
+            const removeButton = row.querySelector(".remove-activity")
+            removeButton.setAttribute("aria-label", `Remove ${day} entry ${start} - ${end}`)
+            removeButton.addEventListener("click", () => {
+                registrationModel.removeActivity(`${index + 1}`, activityIndex)
+            })
             activityTableBody.appendChild(row)
         })
         weekdaySection.appendChild(dayCard)
@@ -142,7 +148,10 @@ const renderWeekTotal = () => {
     weekTotalSection.appendChild(weekTotalTemplate)
 }
 
-const renderActivityChange = () => {
+const renderActivityChange = (overlapsActivity) => {
+    document.getElementById("overlap-feedback").hidden = !overlapsActivity
+    if (overlapsActivity) return
+
     renderWeekdaySections()
     renderWeekTotal()
 }
@@ -159,6 +168,7 @@ const init = () => {
     document.getElementById("ewd").value = 1
     document.getElementById("ewd").addEventListener("change", (changeEvent) => {
         registrationModel.setWeekDay(changeEvent.target.value)
+        document.getElementById("overlap-feedback").hidden = true
     })
 
     document.getElementById("aact").addEventListener("click", () => { addActivity() })

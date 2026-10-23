@@ -167,6 +167,27 @@
             width: 100%;
         }
 
+        #overlap-feedback {
+            box-sizing: border-box;
+            width: 100%;
+            height: 48px;
+            margin-top: 24px;
+            padding: 0 16px;
+            border-radius: 8px;
+            background-color: #fff4ce;
+            color: #5d4700;
+        }
+
+        #overlap-feedback:not([hidden]) {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        #overlap-feedback svg {
+            flex-shrink: 0;
+        }
+
         .daycard {
             background-color: var(--card-bg);
             border-radius: var(--border-radius);
@@ -197,15 +218,39 @@
 
         .activitytable {
             width: 100%;
+            border-collapse: collapse;
         }
 
         .activitytable th {
             color: darkgray;
         }
 
-        .activitytable th:last-child,
-        .activitytable td:last-child {
+        .activitytable th:nth-child(3),
+        .activitytable td:nth-child(3) {
             text-align: right;
+        }
+
+        .activitytable .activity-actions {
+            width: 16px;
+            padding: 0 0 0 8px;
+        }
+
+        .remove-activity {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 16px;
+            height: 16px;
+            padding: 0;
+            border: none;
+            border-radius: 50%;
+            background: #fde7e9;
+            color: #a4262c;
+            cursor: pointer;
+        }
+
+        .remove-activity:hover {
+            background-color: #f8c7cb;
         }
 
         .activitytable th:first-child,
@@ -218,6 +263,7 @@
             display: flex;
             justify-content: space-between;
             margin-top: auto;
+            padding-right: 24px;
         }
 
         .weektotal-total {
@@ -293,6 +339,15 @@
             </section>
         </section>
 
+        <div id="overlap-feedback" role="alert" hidden>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 3 2 21h20L12 3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+                <path d="M12 9v5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                <circle cx="12" cy="17" r="1" fill="currentColor" />
+            </svg>
+            <span>Time is overlapping previously entered registration</span>
+        </div>
+
         <section id="weekday-sections">
             <!-- Weekday sections will be dynamically generated here -->
         </section>
@@ -308,6 +363,7 @@
                         <th>Start</th>
                         <th>End</th>
                         <th>Duration</th>
+                        <th class="activity-actions" aria-label="Actions"></th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -317,6 +373,21 @@
                 <span class="daytotalduration"></span>
             </div>
         </section>
+    </template>
+
+    <template id="activity-row-template">
+        <tr>
+            <td class="activity-start"></td>
+            <td class="activity-end"></td>
+            <td class="activity-duration"></td>
+            <td class="activity-actions">
+                <button type="button" class="remove-activity" aria-label="Remove entry">
+                    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+                        <path d="m4 4 8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                    </svg>
+                </button>
+            </td>
+        </tr>
     </template>
 
     <template id="weektotal-template">
